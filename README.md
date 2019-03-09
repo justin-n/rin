@@ -4,9 +4,11 @@ grep alternative for Windows
 
 Named after the grep defaults that this program emulates.
 
--r Read all files under each directory, recursively.
--i Ignore case distinctions in both the PATTERN and the input files.
--n Prefix each line of output with the 1-based line number within its input file.
+`-r` Read all files under each directory, recursively.
+
+`-i` Ignore case distinctions in both the PATTERN and the input files.
+
+`-n` Prefix each line of output with the 1-based line number within its input file.
 
 This program does not support patterns, just strings.
 
