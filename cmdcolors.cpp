@@ -1,12 +1,34 @@
 #include <windows.h>
 #include "cmdcolors.h"
 
+WORD getUserTextAttributes();
+void setTextToRed();
+void setTextToGreen();
+void setTextToUserColor();
+
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
+WORD userTextAttributes = getUserTextAttributes();
+
+WORD getUserTextAttributes() {
+
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+
+    GetConsoleScreenBufferInfo(hConsole, &csbi);
+
+    WORD userTextAttributes = csbi.wAttributes;
+
+    return userTextAttributes;
+}
+
 void setTextToRed() {
-    SetConsoleTextAttribute(hConsole, 12);
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
 }
 
 void setTextToGreen() {
-    SetConsoleTextAttribute(hConsole, 10);
+    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+}
+
+void setTextToUserColor() {
+    SetConsoleTextAttribute(hConsole, userTextAttributes);
 }

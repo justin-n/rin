@@ -82,7 +82,7 @@ void printMatchesInLine(int lineNumber, size_t searchStringLen, std::vector<size
 
             std::cout << line.substr(printPos, searchStringLen);
 
-            setTextToGreen();
+            setTextToUserColor();
 
             printPos += searchStringLen;
         }
