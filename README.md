@@ -14,6 +14,6 @@ This program does not support patterns, just strings.
 
 It can be compiled in the same directory as all the files like this:
 
-    g++ -static -o rin rin.cpp cmdcolors.h cmdcolors.cpp matchprinter.cpp matchprinter.h filehandler.cpp filehandler.h -lshlwapi
+    g++ -static -o rin rin.cpp cmdcolors.h cmdcolors.cpp matchprinter.cpp matchprinter.h filehandler.cpp filehandler.h options.h -lshlwapi
 
 Currently testing with g++ version 8.1.0 compiled on Windows 10

@@ -7,12 +7,14 @@
 
 #include "filehandler.h"
 #include "matchprinter.h"
+#include "options.h"
 
 void enumerateAndSearchFiles(
         std::string directory, 
         std::string searchString,
         std::vector<std::string> extensionsToIgnore,
-        int depthLevel) {
+        int depthLevel,
+        opts::option_fields options) {
 
     WIN32_FIND_DATA wfd;
 
@@ -53,7 +55,7 @@ void enumerateAndSearchFiles(
 
                     // std::cout << fileExtension << std::endl;
 
-                    printMatchesInFile(searchString, directory + "\\" + fileName);
+                    printMatchesInFile(searchString, directory + "\\" + fileName, options);
 
                 }
             }
@@ -72,7 +74,7 @@ void enumerateAndSearchFiles(
 
                 // std::cout << directory << "\\" << subDirectories[i] << " <DIR>" << std::endl;
 
-                enumerateAndSearchFiles(directory +"\\"+ subDirectories[i], searchString, extensionsToIgnore, depthLevel);
+                enumerateAndSearchFiles(directory +"\\"+ subDirectories[i], searchString, extensionsToIgnore, depthLevel, options);
             }
         }
     }

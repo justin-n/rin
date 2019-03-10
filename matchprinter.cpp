@@ -6,10 +6,11 @@
 
 #include "matchprinter.h"
 #include "cmdcolors.h"
+#include "options.h"
 
 std::string twoSpaceIndent = "  ";
 
-void printMatchesInFile(std::string searchString, std::string fileName) {
+void printMatchesInFile(std::string searchString, std::string fileName, opts::option_fields options) {
 
     size_t searchStringLen = searchString.length();
     
@@ -28,7 +29,7 @@ void printMatchesInFile(std::string searchString, std::string fileName) {
             size_t substrPos;
             size_t nextSearchStartIndex = 0;
 
-            std::vector<size_t> matchedPositions = getMatchedPositions(searchString, searchStringLen, line);
+            std::vector<size_t> matchedPositions = getMatchedPositions(searchString, searchStringLen, line, options);
             
             if (matchedPositions.size() > 0) {
 
@@ -106,17 +107,21 @@ void printMatchesInLine(int lineNumber, size_t searchStringLen, std::vector<size
    
 }
 
-std::vector<size_t> getMatchedPositions(std::string searchString, size_t searchStringLen, std::string line) {
+std::vector<size_t> getMatchedPositions(
+        std::string searchString,
+        size_t searchStringLen,
+        std::string line,
+        opts::option_fields options) {
 
     size_t substrPos;
     size_t nextSearchStartIndex = 0;
 
     std::vector<size_t> matchedPositions;
 
-    // ignore case here
-    if (1) {
+    if (options & opts::ignore_case) {
 
         std::transform(line.begin(), line.end(), line.begin(), ::tolower);
+        std::transform(searchString.begin(), searchString.end(), searchString.begin(), ::tolower);
 
     } 
     
