@@ -3,7 +3,6 @@
 #include <vector>
 #include <windows.h>
 
-#include "casemode.h"
 #include "matchprinter.h"
 #include "filehandler.h"
 
@@ -33,12 +32,8 @@ int main(int argc, char** argv) {
     std::vector<std::string> extensionsToIgnore;
     extensionsToIgnore.push_back(".exe");
     extensionsToIgnore.push_back(".dll");
-    extensionsToIgnore.push_back(".js.map");
-    extensionsToIgnore.push_back(".map");
 
-    CaseMode caseMode = IGNORE_CASE;
-    
-    // printMatchesInFile(searchString, fileName, caseMode);
+    // printMatchesInFile(searchString, fileName);
 
     enumerateAndSearchFiles(".", searchString, extensionsToIgnore, 0);
 

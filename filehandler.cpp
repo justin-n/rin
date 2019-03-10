@@ -6,7 +6,6 @@
 #include <shlwapi.h>
 
 #include "filehandler.h"
-#include "casemode.h"
 #include "matchprinter.h"
 
 void enumerateAndSearchFiles(
@@ -54,7 +53,7 @@ void enumerateAndSearchFiles(
 
                     // std::cout << fileExtension << std::endl;
 
-                    printMatchesInFile(searchString, directory + "\\" + fileName, IGNORE_CASE);
+                    printMatchesInFile(searchString, directory + "\\" + fileName);
 
                 }
             }

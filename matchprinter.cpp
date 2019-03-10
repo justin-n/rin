@@ -5,12 +5,11 @@
 #include <fstream>
 
 #include "matchprinter.h"
-#include "casemode.h"
 #include "cmdcolors.h"
 
 std::string twoSpaceIndent = "  ";
 
-void printMatchesInFile(std::string searchString, std::string fileName, CaseMode caseMode) {
+void printMatchesInFile(std::string searchString, std::string fileName) {
 
     size_t searchStringLen = searchString.length();
     
@@ -29,7 +28,7 @@ void printMatchesInFile(std::string searchString, std::string fileName, CaseMode
             size_t substrPos;
             size_t nextSearchStartIndex = 0;
 
-            std::vector<size_t> matchedPositions = getMatchedPositions(searchString, searchStringLen, line, caseMode);
+            std::vector<size_t> matchedPositions = getMatchedPositions(searchString, searchStringLen, line);
             
             if (matchedPositions.size() > 0) {
 
@@ -107,14 +106,15 @@ void printMatchesInLine(int lineNumber, size_t searchStringLen, std::vector<size
    
 }
 
-std::vector<size_t> getMatchedPositions(std::string searchString, size_t searchStringLen, std::string line, CaseMode caseMode) {
+std::vector<size_t> getMatchedPositions(std::string searchString, size_t searchStringLen, std::string line) {
 
     size_t substrPos;
     size_t nextSearchStartIndex = 0;
 
     std::vector<size_t> matchedPositions;
 
-    if (caseMode == IGNORE_CASE) {
+    // ignore case here
+    if (1) {
 
         std::transform(line.begin(), line.end(), line.begin(), ::tolower);
 
