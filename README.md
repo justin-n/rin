@@ -2,7 +2,7 @@
 
 grep alternative for Windows
 
-Named after the grep defaults that this program emulates.
+Named after the grep options that this program emulates by default:
 
 `-r` Read all files under each directory, recursively.
 
