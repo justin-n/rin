@@ -26,8 +26,6 @@ void enumerateAndSearchFiles(
 
     hFile = FindFirstFile(allFilesInDirectory.c_str(), &wfd);
 
-    // std::cout << hFile << std::endl;
-
     if (hFile != INVALID_HANDLE_VALUE) {
 
         std::vector<std::string> subDirectories;
@@ -49,12 +47,6 @@ void enumerateAndSearchFiles(
 
                 if (!ignoreFile(fileExtension, extensionsToIgnore)) {
 
-                    // printDepthLevel(depthLevel);
-
-                    // std::cout << directory << "\\" << fileName << " <FILE>" << std::endl;
-
-                    // std::cout << fileExtension << std::endl;
-
                     printMatchesInFile(searchString, directory + "\\" + fileName, options);
 
                 }
@@ -69,10 +61,6 @@ void enumerateAndSearchFiles(
             depthLevel++;
             
             for (int i = 0; i < subDirectories.size(); i++) {
-
-                // printDepthLevel(depthLevel - 1);
-
-                // std::cout << directory << "\\" << subDirectories[i] << " <DIR>" << std::endl;
 
                 enumerateAndSearchFiles(directory +"\\"+ subDirectories[i], searchString, extensionsToIgnore, depthLevel, options);
             }
@@ -94,10 +82,4 @@ bool ignoreFile(std::string extension, std::vector<std::string> extensionsToIgno
 
     return false;
 
-}
-
-void printDepthLevel(int depthLevel) {
-    for (int i = 0; i < depthLevel; i++) {
-        std::cout << "    ";
-    }
 }

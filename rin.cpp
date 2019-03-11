@@ -33,8 +33,6 @@ int main(int argc, char** argv) {
     extensionsToIgnore.push_back(".exe");
     extensionsToIgnore.push_back(".dll");
 
-    // printMatchesInFile(searchString, fileName, options);
-
     enumerateAndSearchFiles(".", searchString, extensionsToIgnore, 0, options);
 
     return 0;
