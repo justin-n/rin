@@ -32,6 +32,9 @@ int main(int argc, char** argv) {
     std::vector<std::string> extensionsToIgnore;
     extensionsToIgnore.push_back(".exe");
     extensionsToIgnore.push_back(".dll");
+    extensionsToIgnore.push_back(".class");
+    extensionsToIgnore.push_back(".jar");
+    extensionsToIgnore.push_back(".zip");
 
     enumerateAndSearchFiles(".", searchString, extensionsToIgnore, 0, options);
 
