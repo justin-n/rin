@@ -41,7 +41,9 @@ void printMatchesInFile(std::string searchString, std::string fileName, opts::op
 
                 }
 
-                printMatchesInLine(lineNumber, searchStringLen, matchedPositions, line);
+                printNumberedMatchesInLine(searchStringLen, matchedPositions, line, lineNumber);
+
+                std::cout << std::endl;
 
             }
 
@@ -61,16 +63,38 @@ void printMatchesInFile(std::string searchString, std::string fileName, opts::op
         std::cout << "There was a problem opening the file: " << fileName << std::endl;
 
     }
-   
+
 }
 
-void printMatchesInLine(int lineNumber, size_t searchStringLen, std::vector<size_t> matchedPositions, std::string line) {
+void printNumberedMatchesInLine(size_t searchStringLen, std::vector<size_t> matchedPositions, std::string line, int lineNumber) {
+
+    if (matchedPositions.size() <= 0) {
+
+        std::cerr << "Warning: matchedPositions vector is 0 or less in printNumberedMatchesInLine call." << std::endl;
+
+        return;
+
+    }
+
+    std::cout << twoSpaceIndent << lineNumber << ": ";
+
+    printMatchesInLine(searchStringLen, matchedPositions, line);
+
+}
+
+void printMatchesInLine(size_t searchStringLen, std::vector<size_t> matchedPositions, std::string line) {
+
+    if (matchedPositions.size() <= 0) {
+
+        std::cerr << "Warning: matchedPositions vector is 0 or less in printMatchesInLine call." << std::endl;
+
+        return;
+
+    }
 
     size_t printPos = 0;
 
     int machedPosIndex = 0;
-
-    std::cout << twoSpaceIndent << lineNumber << ": ";
 
     while (printPos < line.length()) {
 
@@ -103,8 +127,6 @@ void printMatchesInLine(int lineNumber, size_t searchStringLen, std::vector<size
 
     }
 
-    std::cout << std::endl;
-   
 }
 
 std::vector<size_t> getMatchedPositions(

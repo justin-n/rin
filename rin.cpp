@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <io.h>
 #include <windows.h>
 
 #include "matchprinter.h"
@@ -8,6 +9,7 @@
 #include "options.h"
 
 opts::option_fields getDefaultOptions();
+std::vector<std::string> getExtensionsToIgnore();
 void printUsage();
 
 int main(int argc, char** argv) {
@@ -29,14 +31,33 @@ int main(int argc, char** argv) {
         searchString = argv[1];
     }
 
-    std::vector<std::string> extensionsToIgnore;
-    extensionsToIgnore.push_back(".exe");
-    extensionsToIgnore.push_back(".dll");
-    extensionsToIgnore.push_back(".class");
-    extensionsToIgnore.push_back(".jar");
-    extensionsToIgnore.push_back(".zip");
+    std::vector<std::string> extensionsToIgnore = getExtensionsToIgnore();
 
-    enumerateAndSearchFiles(".", searchString, extensionsToIgnore, 0, options);
+    if (_isatty(_fileno(stdin))) {
+
+        enumerateAndSearchFiles(".", searchString, extensionsToIgnore, 0, options);
+
+    } else {
+
+        std::string inputLine;
+
+        while (getline(std::cin, inputLine)) {
+
+            size_t searchStringLen = searchString.length();
+
+            std::vector<size_t> matchedPositions = getMatchedPositions(searchString, searchStringLen, inputLine, options);
+
+            if (matchedPositions.size() > 0) {
+
+                printMatchesInLine(searchStringLen, matchedPositions, inputLine);
+
+                std::cout << std::endl;
+
+            }
+
+        }
+
+    }
 
     return 0;
 }
@@ -50,6 +71,20 @@ opts::option_fields getDefaultOptions() {
     options |= opts::print_line_numbers;
 
     return options;
+}
+
+std::vector<std::string> getExtensionsToIgnore() {
+
+    std::vector<std::string> extensionsToIgnore;
+
+    extensionsToIgnore.push_back(".exe");
+    extensionsToIgnore.push_back(".dll");
+    extensionsToIgnore.push_back(".class");
+    extensionsToIgnore.push_back(".jar");
+    extensionsToIgnore.push_back(".zip");
+    extensionsToIgnore.push_back(".swc");
+
+    return extensionsToIgnore;
 }
 
 void printUsage() {
