@@ -1,10 +1,10 @@
+#ifndef MatchPrinter_H
+#define MatchPrinter_H
+
 #include <vector>
 #include <string>
 
 #include "options.h"
-
-#ifndef MatchPrinter_H
-#define MatchPrinter_H
 
 std::vector<size_t> getMatchedPositions(
     std::string searchString,

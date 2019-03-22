@@ -1,10 +1,10 @@
+#ifndef FileHandler_H
+#define FileHandler_H
+
 #include <string>
 #include <vector>
 
 #include "options.h"
-
-#ifndef FileHandler_H
-#define FileHandler_H
 
 void enumerateAndSearchFiles(
         std::string directory, 

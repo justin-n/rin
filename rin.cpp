@@ -6,6 +6,7 @@
 
 #include "matchprinter.h"
 #include "filehandler.h"
+#include "pipeoperations.h"
 #include "options.h"
 
 opts::option_fields getDefaultOptions();
@@ -39,23 +40,7 @@ int main(int argc, char** argv) {
 
     } else {
 
-        std::string inputLine;
-
-        while (getline(std::cin, inputLine)) {
-
-            size_t searchStringLen = searchString.length();
-
-            std::vector<size_t> matchedPositions = getMatchedPositions(searchString, searchStringLen, inputLine, options);
-
-            if (matchedPositions.size() > 0) {
-
-                printMatchesInLine(searchStringLen, matchedPositions, inputLine);
-
-                std::cout << std::endl;
-
-            }
-
-        }
+        searchStdout(searchString, options);
 
     }
 

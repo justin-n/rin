@@ -8,12 +8,29 @@
 #include "cmdcolors.h"
 #include "options.h"
 
+void printMatchesInFile(std::string searchString, std::string fileName, opts::option_fields options);
+void printNumberedMatchesInLine(size_t searchStringLen, std::vector<size_t> matchedPositions, std::string line, int lineNumber);
+void printMatchesInLine(size_t searchStringLen, std::vector<size_t> matchedPositions, std::string line);
+std::vector<size_t> getMatchedPositions(
+        std::string searchString,
+        size_t searchStringLen,
+        std::string line,
+        opts::option_fields options);
+void printMatchedString(std::string line, size_t printPos, size_t searchStringLen);
+void printFileNameAndOrLineContainingMatch(
+        std::vector<size_t> matchedPositions,
+        bool &matchFound,
+        std::string fileName,
+        int searchStringLen,
+        std::string line,
+        int lineNumber);
+
 std::string twoSpaceIndent = "  ";
 
 void printMatchesInFile(std::string searchString, std::string fileName, opts::option_fields options) {
 
     size_t searchStringLen = searchString.length();
-    
+
     std::ifstream infile(fileName);
 
     if (infile) {
@@ -30,22 +47,9 @@ void printMatchesInFile(std::string searchString, std::string fileName, opts::op
             size_t nextSearchStartIndex = 0;
 
             std::vector<size_t> matchedPositions = getMatchedPositions(searchString, searchStringLen, line, options);
-            
-            if (matchedPositions.size() > 0) {
 
-                if (!matchFound) {
-
-                    std::cout << fileName << std::endl;
-
-                    matchFound = true;
-
-                }
-
-                printNumberedMatchesInLine(searchStringLen, matchedPositions, line, lineNumber);
-
-                std::cout << std::endl;
-
-            }
+            printFileNameAndOrLineContainingMatch(
+                matchedPositions, matchFound, fileName, searchStringLen, line, lineNumber);
 
             lineNumber++;
 
@@ -59,18 +63,19 @@ void printMatchesInFile(std::string searchString, std::string fileName, opts::op
 
     }
     else {
-        
+
         std::cout << "There was a problem opening the file: " << fileName << std::endl;
 
     }
 
 }
 
-void printNumberedMatchesInLine(size_t searchStringLen, std::vector<size_t> matchedPositions, std::string line, int lineNumber) {
+void printNumberedMatchesInLine(
+        size_t searchStringLen, std::vector<size_t> matchedPositions, std::string line, int lineNumber) {
 
     if (matchedPositions.size() <= 0) {
 
-        std::cerr << "Warning: matchedPositions vector is 0 or less in printNumberedMatchesInLine call." << std::endl;
+        std::cerr << "[WARNING]: matchedPositions vector is 0 or less in printNumberedMatchesInLine call." << std::endl;
 
         return;
 
@@ -86,7 +91,7 @@ void printMatchesInLine(size_t searchStringLen, std::vector<size_t> matchedPosit
 
     if (matchedPositions.size() <= 0) {
 
-        std::cerr << "Warning: matchedPositions vector is 0 or less in printMatchesInLine call." << std::endl;
+        std::cerr << "[WARNING]: matchedPositions vector is 0 or less in printMatchesInLine call." << std::endl;
 
         return;
 
@@ -102,11 +107,7 @@ void printMatchesInLine(size_t searchStringLen, std::vector<size_t> matchedPosit
 
             machedPosIndex++;
 
-            setTextToRed();
-
-            std::cout << line.substr(printPos, searchStringLen);
-
-            setTextToUserColor();
+            printMatchedString(line, printPos, searchStringLen);
 
             printPos += searchStringLen;
         }
@@ -119,7 +120,7 @@ void printMatchesInLine(size_t searchStringLen, std::vector<size_t> matchedPosit
             printPos += matchlessSubstr.length();
         }
         else {
-            
+
             std::cout << line.substr(printPos);
 
             printPos += line.substr(printPos).length();
@@ -155,4 +156,38 @@ std::vector<size_t> getMatchedPositions(
     }
 
     return matchedPositions;
+}
+
+void printFileNameAndOrLineContainingMatch(
+        std::vector<size_t> matchedPositions,
+        bool &matchFound,
+        std::string fileName,
+        int searchStringLen,
+        std::string line,
+        int lineNumber) {
+
+    if (matchedPositions.size() > 0) {
+
+        if (!matchFound) {
+
+            std::cout << fileName << std::endl;
+
+            matchFound = true;
+
+        }
+
+        printNumberedMatchesInLine(searchStringLen, matchedPositions, line, lineNumber);
+
+        std::cout << std::endl;
+
+    }
+}
+
+void printMatchedString(std::string line, size_t printPos, size_t searchStringLen) {
+
+    setTextToRed();
+
+    std::cout << line.substr(printPos, searchStringLen);
+
+    setTextToUserColor();
 }

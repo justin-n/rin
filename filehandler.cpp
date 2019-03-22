@@ -62,7 +62,8 @@ void enumerateAndSearchFiles(
             
             for (int i = 0; i < subDirectories.size(); i++) {
 
-                enumerateAndSearchFiles(directory +"\\"+ subDirectories[i], searchString, extensionsToIgnore, depthLevel, options);
+                enumerateAndSearchFiles(
+                    directory +"\\"+ subDirectories[i], searchString, extensionsToIgnore, depthLevel, options);
             }
         }
     }
