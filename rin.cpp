@@ -75,9 +75,13 @@ std::vector<std::string> getExtensionsToIgnore() {
 void printUsage() {
     std::cout << "Finds exact strings (not patterns) in the lines of files." << std::endl;
     std::cout << std::endl;
-    std::cout << "rin [searchString]" << std::endl;
+    std::cout << "    rin [searchString]" << std::endl;
     std::cout << std::endl;
     std::cout << "Files will be searched recursively from the current working directory." << std::endl;
+    std::cout << std::endl;
+    std::cout << "stdout can be searched by using rin through a pipe:" << std::endl;
+    std::cout << std::endl;
+    std::cout << "    <command> | rin [searchString]" << std::endl;
     std::cout << std::endl;
 }
 

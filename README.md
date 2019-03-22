@@ -10,10 +10,14 @@ Named after the grep options that this program emulates by default:
 
 `-n` Prefix each line of output with the 1-based line number within its input file.
 
+Supports searching stdout by using the pipe operator:
+
+    <command> | rin [searchString]
+
 This program does not support patterns, just strings.
 
 It can be compiled in the same directory as all the files like this:
 
-    g++ -static -o rin rin.cpp cmdcolors.h cmdcolors.cpp matchprinter.cpp matchprinter.h filehandler.cpp filehandler.h options.h -lshlwapi
+    g++ -static -o rin rin.cpp cmdcolors.h cmdcolors.cpp matchprinter.cpp matchprinter.h filehandler.cpp filehandler.h pipeoperations.cpp pipeoperations.h options.h -lshlwapi
 
-Currently testing with g++ version 8.1.0 compiled on Windows 10
+Currently using g++ version 8.1.0 compiled on Windows 10
