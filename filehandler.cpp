@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -12,6 +13,7 @@
 void enumerateAndSearchFiles(
         std::string directory, 
         std::string searchString,
+        std::vector<std::string> directoriesToIgnore,
         std::vector<std::string> extensionsToIgnore,
         int depthLevel,
         opts::option_fields options) {
@@ -36,7 +38,7 @@ void enumerateAndSearchFiles(
 
             if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
                 
-                if ((fileName.compare(".")) != 0 && (fileName.compare(".."))) {
+                if (!ignoreDirectory(fileName, directoriesToIgnore)) {
 
                     subDirectories.push_back(fileName);
                 }
@@ -45,7 +47,7 @@ void enumerateAndSearchFiles(
 
                 std::string fileExtension = PathFindExtension(fileName.c_str());
 
-                if (!ignoreFile(fileExtension, extensionsToIgnore)) {
+                if (!ignoreFileByExtension(fileExtension, extensionsToIgnore)) {
 
                     printMatchesInFile(searchString, directory + "\\" + fileName, options);
 
@@ -63,13 +65,18 @@ void enumerateAndSearchFiles(
             for (int i = 0; i < subDirectories.size(); i++) {
 
                 enumerateAndSearchFiles(
-                    directory +"\\"+ subDirectories[i], searchString, extensionsToIgnore, depthLevel, options);
+                    directory +"\\"+ subDirectories[i],
+                    searchString,
+                    directoriesToIgnore,
+                    extensionsToIgnore,
+                    depthLevel,
+                    options);
             }
         }
     }
 }
 
-bool ignoreFile(std::string extension, std::vector<std::string> extensionsToIgnore) {
+bool ignoreFileByExtension(std::string extension, std::vector<std::string> extensionsToIgnore) {
 
     for (int i = 0; i < extensionsToIgnore.size(); i++) {
         
@@ -82,5 +89,19 @@ bool ignoreFile(std::string extension, std::vector<std::string> extensionsToIgno
     }
 
     return false;
+}
 
+bool ignoreDirectory(std::string fileName, std::vector<std::string> directoriesToIgnore) {
+
+    if ((fileName.compare(".")) == 0 || (fileName.compare("..")) == 0) {
+
+        return true;
+    }
+
+    if (std::find(directoriesToIgnore.begin(), directoriesToIgnore.end(), fileName) != directoriesToIgnore.end()) {
+
+        return true;
+    }
+
+    return false;
 }

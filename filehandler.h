@@ -9,11 +9,12 @@
 void enumerateAndSearchFiles(
         std::string directory, 
         std::string searchString,
+        std::vector<std::string> directoriesToIgnore,
         std::vector<std::string> extensionsToIgnore,
         int depthLevel,
         opts::option_fields options
 );
-bool ignoreFile(std::string extension, std::vector<std::string> extensionsToIgnore);
-void printDepthLevel(int depthLevel);
+bool ignoreFileByExtension(std::string extension, std::vector<std::string> extensionsToIgnore);
+bool ignoreDirectory(std::string fileName, std::vector<std::string> directoriesToIgnore);
 
 #endif
