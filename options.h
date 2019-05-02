@@ -2,7 +2,7 @@
 #define Options_H
 
 namespace opts {
-    
+
     typedef int option_fields;
 
     const int recursive          = 0x1;

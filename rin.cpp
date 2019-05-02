@@ -4,6 +4,7 @@
 #include <io.h>
 #include <windows.h>
 
+#include "runtimestate.h"
 #include "matchprinter.h"
 #include "filehandler.h"
 #include "pipeoperations.h"
@@ -54,19 +55,22 @@ int main(int argc, char** argv) {
 
     opts::option_fields options = getDefaultOptions();
 
-    std::string fileName;
-
     std::vector<std::string> extensionsToIgnore = getExtensionsToIgnore();
+
+    RunTimeState *runTimeState
+            = new RunTimeState(searchString, options, directoriesToIgnore, extensionsToIgnore);
 
     if (_isatty(_fileno(stdin))) {
 
-        enumerateAndSearchFiles(".", searchString, directoriesToIgnore, extensionsToIgnore, 0, options);
+        enumerateAndSearchFiles(".", runTimeState, 0);
 
     } else {
 
-        searchStdout(searchString, options);
+        searchStdout(runTimeState);
 
     }
+
+    delete runTimeState;
 
     return 0;
 }
@@ -149,4 +153,3 @@ void printUsage() {
     std::cout << "    <command> | rin [searchString]" << std::endl;
     std::cout << std::endl;
 }
-

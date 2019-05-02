@@ -6,25 +6,18 @@
 #include <windows.h>
 #include <shlwapi.h>
 
+#include "runtimestate.h"
 #include "filehandler.h"
 #include "matchprinter.h"
 #include "options.h"
 
-void enumerateAndSearchFiles(
-        std::string directory, 
-        std::string searchString,
-        std::vector<std::string> directoriesToIgnore,
-        std::vector<std::string> extensionsToIgnore,
-        int depthLevel,
-        opts::option_fields options) {
+void enumerateAndSearchFiles(std::string directory, RunTimeState *runTimeState, int depthLevel) {
 
     WIN32_FIND_DATA wfd;
 
     HANDLE hFile = INVALID_HANDLE_VALUE;
 
-    std::string allFilesInDirectory;
-
-    allFilesInDirectory = directory + "\\*";
+    std::string allFilesInDirectory = (directory + "\\*");
 
     hFile = FindFirstFile(allFilesInDirectory.c_str(), &wfd);
 
@@ -38,7 +31,7 @@ void enumerateAndSearchFiles(
 
             if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
                 
-                if (!ignoreDirectory(fileName, directoriesToIgnore)) {
+                if (!ignoreDirectory(fileName, runTimeState->getDirectoriesToIgnore())) {
 
                     subDirectories.push_back(fileName);
                 }
@@ -47,9 +40,9 @@ void enumerateAndSearchFiles(
 
                 std::string fileExtension = PathFindExtension(fileName.c_str());
 
-                if (!ignoreFileByExtension(fileExtension, extensionsToIgnore)) {
+                if (!ignoreFileByExtension(fileExtension, runTimeState->getExtensionsToIgnore())) {
 
-                    printMatchesInFile(searchString, directory + "\\" + fileName, options);
+                    printMatchesInFile( (directory + "\\" + fileName) , runTimeState);
 
                 }
             }
@@ -64,13 +57,7 @@ void enumerateAndSearchFiles(
             
             for (int i = 0; i < subDirectories.size(); i++) {
 
-                enumerateAndSearchFiles(
-                    directory +"\\"+ subDirectories[i],
-                    searchString,
-                    directoriesToIgnore,
-                    extensionsToIgnore,
-                    depthLevel,
-                    options);
+                enumerateAndSearchFiles( (directory +"\\"+ subDirectories[i]), runTimeState, depthLevel);
             }
         }
     }

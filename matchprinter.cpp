@@ -1,22 +1,24 @@
+#include "matchprinter.h"
+
 #include <iostream>
 #include <vector>
 #include <string>
 #include <algorithm>
 #include <fstream>
 
-#include "matchprinter.h"
 #include "cmdcolors.h"
 #include "options.h"
 
-void printMatchesInFile(std::string searchString, std::string fileName, opts::option_fields options);
+void printMatchesInFile(std::string fileName, RunTimeState *runTimeState);
+
 void printNumberedMatchesInLine(size_t searchStringLen, std::vector<size_t> matchedPositions, std::string line, int lineNumber);
+
 void printMatchesInLine(size_t searchStringLen, std::vector<size_t> matchedPositions, std::string line);
-std::vector<size_t> getMatchedPositions(
-        std::string searchString,
-        size_t searchStringLen,
-        std::string line,
-        opts::option_fields options);
+
+std::vector<size_t> getMatchedPositions(std::string line, RunTimeState *runTimeState);
+
 void printMatchedString(std::string line, size_t printPos, size_t searchStringLen);
+
 void printFileNameAndOrLineContainingMatch(
         std::vector<size_t> matchedPositions,
         bool &matchFound,
@@ -27,9 +29,9 @@ void printFileNameAndOrLineContainingMatch(
 
 std::string twoSpaceIndent = "  ";
 
-void printMatchesInFile(std::string searchString, std::string fileName, opts::option_fields options) {
+void printMatchesInFile(std::string fileName, RunTimeState *runTimeState) {
 
-    size_t searchStringLen = searchString.length();
+    size_t searchStringLen = runTimeState->getSearchStringLen();
 
     std::ifstream infile(fileName);
 
@@ -46,7 +48,7 @@ void printMatchesInFile(std::string searchString, std::string fileName, opts::op
             size_t substrPos;
             size_t nextSearchStartIndex = 0;
 
-            std::vector<size_t> matchedPositions = getMatchedPositions(searchString, searchStringLen, line, options);
+            std::vector<size_t> matchedPositions = getMatchedPositions(line, runTimeState);
 
             printFileNameAndOrLineContainingMatch(
                 matchedPositions, matchFound, fileName, searchStringLen, line, lineNumber);
@@ -130,24 +132,23 @@ void printMatchesInLine(size_t searchStringLen, std::vector<size_t> matchedPosit
 
 }
 
-std::vector<size_t> getMatchedPositions(
-        std::string searchString,
-        size_t searchStringLen,
-        std::string line,
-        opts::option_fields options) {
+std::vector<size_t> getMatchedPositions(std::string line, RunTimeState *runTimeState) {
 
     size_t substrPos;
     size_t nextSearchStartIndex = 0;
 
+    std::string searchString = runTimeState->getSearchString();
+    size_t searchStringLen = runTimeState->getSearchStringLen();
+
     std::vector<size_t> matchedPositions;
 
-    if (options & opts::ignore_case) {
+    if (runTimeState->getOptions() & opts::ignore_case) {
 
         std::transform(line.begin(), line.end(), line.begin(), ::tolower);
         std::transform(searchString.begin(), searchString.end(), searchString.begin(), ::tolower);
 
     } 
-    
+
     while ((substrPos = line.find(searchString, nextSearchStartIndex)) != std::string::npos) {
 
         nextSearchStartIndex = (substrPos + searchStringLen);
@@ -156,6 +157,7 @@ std::vector<size_t> getMatchedPositions(
     }
 
     return matchedPositions;
+
 }
 
 void printFileNameAndOrLineContainingMatch(

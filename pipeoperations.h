@@ -4,7 +4,8 @@
 #include <string>
 
 #include "options.h"
+#include "runtimestate.h"
 
-void searchStdout(std::string searchString, opts::option_fields options);
+void searchStdout(RunTimeState *runTimeState);
 
 #endif

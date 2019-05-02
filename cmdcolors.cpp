@@ -1,5 +1,6 @@
-#include <windows.h>
 #include "cmdcolors.h"
+
+#include <windows.h>
 
 WORD getUserTextAttributes();
 void setTextToRed();

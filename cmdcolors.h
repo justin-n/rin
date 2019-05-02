@@ -4,8 +4,11 @@
 #include <windows.h>
 
 WORD getUserTextAttributes();
+
 void setTextToRed();
+
 void setTextToGreen();
+
 void setTextToUserColor();
 
 #endif

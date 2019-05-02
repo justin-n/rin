@@ -1,19 +1,22 @@
+#include "pipeoperations.h"
+
 #include <iostream>
 #include <string>
 #include <vector>
 
+#include "runtimestate.h"
 #include "matchprinter.h"
 #include "options.h"
 
-void searchStdout(std::string searchString, opts::option_fields options) {
+void searchStdout(RunTimeState *runTimeState) {
 
     std::string inputLine;
 
+    size_t searchStringLen = runTimeState->getSearchStringLen();
+
     while (getline(std::cin, inputLine)) {
 
-        size_t searchStringLen = searchString.length();
-
-        std::vector<size_t> matchedPositions = getMatchedPositions(searchString, searchStringLen, inputLine, options);
+        std::vector<size_t> matchedPositions = getMatchedPositions(inputLine, runTimeState);
 
         if (matchedPositions.size() > 0) {
 
@@ -24,6 +27,4 @@ void searchStdout(std::string searchString, opts::option_fields options) {
         }
 
     }
-
 }
-

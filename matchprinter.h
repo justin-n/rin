@@ -4,16 +4,15 @@
 #include <vector>
 #include <string>
 
+#include "runtimestate.h"
 #include "options.h"
 
-std::vector<size_t> getMatchedPositions(
-    std::string searchString,
-    size_t searchStringLen,
-    std::string line,
-    opts::option_fields options
-);
-void printMatchesInFile(std::string searchString, std::string fileName, opts::option_fields options);
+std::vector<size_t> getMatchedPositions(std::string line, RunTimeState *runtimestate);
+
+void printMatchesInFile(std::string fileName, RunTimeState *runTimeState);
+
 void printMatchesInLine(size_t searchStringLen, std::vector<size_t> matchedPositions, std::string line);
+
 void printNumberedMatchesInLine(size_t searchStringLen, std::vector<size_t> matchedPositions, std::string line, int lineNumber);
 
 #endif
