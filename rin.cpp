@@ -4,6 +4,7 @@
 #include <io.h>
 #include <windows.h>
 
+#include "argumenthandler.h"
 #include "runtimestate.h"
 #include "matchprinter.h"
 #include "filehandler.h"
@@ -12,23 +13,43 @@
 
 opts::option_fields getDefaultOptions();
 std::vector<std::string> getExtensionsToIgnore();
+// TODO this should be removed after argumenthandler is done
 std::vector<std::string> convertCStringArrayToStringVector(char** arr, int arrLength);
+// TODO this should be removed after argumenthandler is done
 std::vector<std::string> getStringVectorFromStringWithDelimiter(std::string str, std::string delim);
 void printUsage();
+// TODO this should be removed after argumenthandler is done
+void printVector(std::vector<std::string> vec);
 
 int main(int argc, char** argv) {
 
-    if (argc == 1) {
-        std::cout << "Please provide at least a string to search." << std::endl;
-        std::cout << std::endl;
-        printUsage();
-        return 1;
-    }
+    // TODO this should be removed after argumenthandler is done
+    std::cout << "Argument handler branch." << std::endl;
 
+    // TODO this should be removed after argumenthandler is done
+    ArgumentHandler *argumentHandler = new ArgumentHandler(argc, argv);
+
+    try {
+        argumentHandler->init();
+    }
+    catch (const std::exception &e) {
+
+        std::cout << "Exception: " << e.what() << std::endl;
+
+        delete argumentHandler;
+
+        return 1;
+
+    }
+    printVector(argumentHandler->getArguments());
+
+    // TODO this should be removed after argumenthandler is done
     std::vector<std::string> directoriesToIgnore;
 
+    // TODO this should be removed after argumenthandler is done
     std::vector<std::string> argvStringVector = convertCStringArrayToStringVector(argv, argc);
 
+    // TODO this should be removed after argumenthandler is done
     if (argvStringVector.size() == 3) {
 
         if (argvStringVector[1].substr(0, 4) == "-ed=") {
@@ -44,21 +65,19 @@ int main(int argc, char** argv) {
         }
     }
 
-    if (argc > 3) {
-        std::cout << "Too many arguments provided." << std::endl;
-        std::cout << std::endl;
-        printUsage();
-        return 1;
-    }
-
+    // TODO this should be removed after argumenthandler is done
     std::string searchString = argv[argc - 1];
+    
 
+    // TODO this should be removed after argumenthandler is done
     opts::option_fields options = getDefaultOptions();
 
     std::vector<std::string> extensionsToIgnore = getExtensionsToIgnore();
 
     RunTimeState *runTimeState
             = new RunTimeState(searchString, options, directoriesToIgnore, extensionsToIgnore);
+
+    delete argumentHandler;
 
     if (_isatty(_fileno(stdin))) {
 
@@ -75,6 +94,7 @@ int main(int argc, char** argv) {
     return 0;
 }
 
+// TODO this should be removed after argumenthandler is done
 opts::option_fields getDefaultOptions() {
 
     opts::option_fields options = 0x0;
@@ -86,6 +106,7 @@ opts::option_fields getDefaultOptions() {
     return options;
 }
 
+// TODO this should be removed after argumenthandler is done
 std::vector<std::string> getExtensionsToIgnore() {
 
     std::vector<std::string> extensionsToIgnore;
@@ -100,6 +121,8 @@ std::vector<std::string> getExtensionsToIgnore() {
     return extensionsToIgnore;
 }
 
+
+// TODO this should be removed after argumenthandler is done
 std::vector<std::string> convertCStringArrayToStringVector(char** arr, int arrLength) {
 
     std::vector<std::string> stringVector;
@@ -112,6 +135,7 @@ std::vector<std::string> convertCStringArrayToStringVector(char** arr, int arrLe
     return stringVector;
 }
 
+// TODO this should be removed after argumentHandler is done
 std::vector<std::string> getStringVectorFromStringWithDelimiter(std::string str, std::string delim) {
 
     std::vector<std::string> stringVector;
@@ -152,4 +176,15 @@ void printUsage() {
     std::cout << std::endl;
     std::cout << "    <command> | rin [searchString]" << std::endl;
     std::cout << std::endl;
+}
+
+// TODO this should be removed after argumentHandler is done
+void printVector(std::vector<std::string> vec) {
+
+    for (int i = 0; i < vec.size(); i++) {
+
+        std::cout << " " << vec.at(i);
+    }
+
+    std::cout << std::endl << std::endl;
 }
