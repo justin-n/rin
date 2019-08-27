@@ -25,8 +25,8 @@ Supports searching stdout by using the pipe operator:
 
 This program does not support patterns, just strings.
 
-It can be compiled in the same directory as all the files like this:
+It can be compiled in the same directory as all the files with this command:
 
-    g++ -static -o rin rin.cpp runtimestate.cpp cmdcolors.cpp matchprinter.cpp filehandler.cpp pipeoperations.cpp -lshlwapi
+    g++ -static -o rin rin.cpp runtimestate.cpp cmdcolors.cpp matchprinter.cpp filehandler.cpp pipeoperations.cpp argumenthandler.cpp resolvedargumentvaluecontainer.cpp -lshlwapi
 
 Currently using g++ version 8.1.0 compiled on Windows 10
