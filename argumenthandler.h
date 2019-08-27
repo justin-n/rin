@@ -26,6 +26,18 @@ class ArgumentHandler {
 
         std::vector<std::string> getSupportedArguments();
 
+        void checkForArgumentSupport();
+
+        bool isSupportedArgument(std::string argName);
+
+        std::string getArgumentName(std::string arg);
+
+        std::string getArgumentValueOf(std::string arg);
+
+        void loadDirectoriesToIgnore(std::string commaDelimitedDirectoryNameList);
+
+        std::vector<std::string> getStringVectorFromStringWithDelimiter(std::string str, std::string delim);
+
     public:
 
         ArgumentHandler(int argc, char** argv);
@@ -38,6 +50,7 @@ class ArgumentHandler {
 
         int getNumberOfArguments();
 
+        std::vector<std::string> getDirectoriesToIgnore();
 };
 
 #endif
