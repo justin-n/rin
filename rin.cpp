@@ -32,16 +32,10 @@ int main(int argc, char** argv) {
 
     }
 
-    std::string searchString = argv[argc - 1];
-
-    opts::option_fields options = getDefaultOptions();
-
-    std::vector<std::string> extensionsToIgnore = getExtensionsToIgnore();
-
-    RunTimeState *runTimeState = new RunTimeState(searchString,
-                                                  options,
+    RunTimeState *runTimeState = new RunTimeState(argumentHandler->getSearchString(),
+                                                  argumentHandler->getOptions(),
                                                   argumentHandler->getDirectoriesToIgnore(),
-                                                  extensionsToIgnore);
+                                                  argumentHandler->getExtensionsToIgnore());
 
     delete argumentHandler;
 
@@ -58,31 +52,6 @@ int main(int argc, char** argv) {
     delete runTimeState;
 
     return 0;
-}
-
-opts::option_fields getDefaultOptions() {
-
-    opts::option_fields options = 0x0;
-
-    options |= opts::recursive;
-    options |= opts::ignore_case;
-    options |= opts::print_line_numbers;
-
-    return options;
-}
-
-std::vector<std::string> getExtensionsToIgnore() {
-
-    std::vector<std::string> extensionsToIgnore;
-
-    extensionsToIgnore.push_back(".exe");
-    extensionsToIgnore.push_back(".dll");
-    extensionsToIgnore.push_back(".class");
-    extensionsToIgnore.push_back(".jar");
-    extensionsToIgnore.push_back(".zip");
-    extensionsToIgnore.push_back(".swc");
-
-    return extensionsToIgnore;
 }
 
 void printUsage() {

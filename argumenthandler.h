@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+#include "resolvedargumentvaluecontainer.h"
+
 class ArgumentHandler {
 
     private:
@@ -16,9 +18,9 @@ class ArgumentHandler {
 
         std::vector<std::string> supportedArguments;
 
-        std::string searchString;
+        ResolvedArgumentValueContainer *resolvedArgumentValueContainer;
 
-        std::vector<std::string> directoriesToIgnore;
+        std::string searchString;
 
         void checkSyntax();
 
@@ -46,11 +48,13 @@ class ArgumentHandler {
 
         void init();
 
-        std::vector<std::string> getArguments();
-
-        int getNumberOfArguments();
+        std::string getSearchString();
 
         std::vector<std::string> getDirectoriesToIgnore();
+
+        opts::option_fields getOptions();
+
+        std::vector<std::string> getExtensionsToIgnore();
 };
 
 #endif

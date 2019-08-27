@@ -3,17 +3,23 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <stdexcept>
 
-#include <iostream>
+#include "resolvedargumentvaluecontainer.h"
 
 ArgumentHandler::ArgumentHandler(int argc, char** argv) {
 
     this->argc = argc;
 
     this->argv = argv;
+
+    this->resolvedArgumentValueContainer = new ResolvedArgumentValueContainer();
 }
 
-ArgumentHandler::~ArgumentHandler() { }
+ArgumentHandler::~ArgumentHandler() { 
+
+    delete this->resolvedArgumentValueContainer;
+}
 
 void ArgumentHandler::init() {
 
@@ -25,6 +31,8 @@ void ArgumentHandler::init() {
     this->supportedArguments = this->getSupportedArguments();
 
     this->checkSyntax();
+
+    this->resolvedArgumentValueContainer->setSearchString(this->argv[argc - 1]);
 
     for (int i = 1; i < ((this->argc) - 1); i++) {
 
@@ -58,16 +66,6 @@ void ArgumentHandler::checkSyntax() {
     this->checkForArgumentSupport();
 }
 
-std::vector<std::string> ArgumentHandler::getArguments() {
-
-    return this->arguments;
-}
-
-int ArgumentHandler::getNumberOfArguments() {
-
-    return this->argc;
-}
-
 bool ArgumentHandler::isValidArgumentSyntax(std::string arg) {
 
     if ((arg.substr(0, 1).compare("-") == 0) || (arg.substr(0, 2).compare("--") == 0)) {
@@ -78,9 +76,24 @@ bool ArgumentHandler::isValidArgumentSyntax(std::string arg) {
     return false;
 }
 
+std::string ArgumentHandler::getSearchString() {
+
+    return this->resolvedArgumentValueContainer->getSearchString();
+}
+
 std::vector<std::string> ArgumentHandler::getDirectoriesToIgnore() {
 
-    return this->directoriesToIgnore;
+    return this->resolvedArgumentValueContainer->getDirectoriesToIgnore();
+}
+
+opts::option_fields ArgumentHandler::getOptions() {
+
+    return this->resolvedArgumentValueContainer->getOptions();
+}
+
+std::vector<std::string> ArgumentHandler::getExtensionsToIgnore() {
+
+    return this->resolvedArgumentValueContainer->getExtensionsToIgnore();
 }
 
 std::vector<std::string> ArgumentHandler::getSupportedArguments() {
@@ -152,7 +165,8 @@ std::string ArgumentHandler::getArgumentValueOf(std::string arg) {
 
 void ArgumentHandler::loadDirectoriesToIgnore(std::string commaDelimitedDirectoryNameList) {
 
-    this->directoriesToIgnore = this->getStringVectorFromStringWithDelimiter(commaDelimitedDirectoryNameList, ",");
+    this->resolvedArgumentValueContainer
+        ->setDirectoriesToIgnore(this->getStringVectorFromStringWithDelimiter(commaDelimitedDirectoryNameList, ","));
 }
 
 std::vector<std::string> ArgumentHandler::getStringVectorFromStringWithDelimiter(std::string str, std::string delim) {
