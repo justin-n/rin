@@ -165,8 +165,21 @@ std::string ArgumentHandler::getArgumentValueOf(std::string arg) {
 
 void ArgumentHandler::loadDirectoriesToIgnore(std::string commaDelimitedDirectoryNameList) {
 
-    this->resolvedArgumentValueContainer
-        ->setDirectoriesToIgnore(this->getStringVectorFromStringWithDelimiter(commaDelimitedDirectoryNameList, ","));
+    std::vector<std::string> directoriesToIgnore;
+
+    std::vector<std::string> directoryNameList =
+                    this->getStringVectorFromStringWithDelimiter(commaDelimitedDirectoryNameList, ",");
+
+    for (int i = 0; i < directoryNameList.size(); i++) {
+
+        std::string directoryName = directoryNameList.at(i);
+
+        std::transform(directoryName.begin(), directoryName.end(), directoryName.begin(), ::tolower);
+
+        directoriesToIgnore.push_back(directoryName);
+    }
+
+    this->resolvedArgumentValueContainer->setDirectoriesToIgnore(directoriesToIgnore);
 }
 
 std::vector<std::string> ArgumentHandler::getStringVectorFromStringWithDelimiter(std::string str, std::string delim) {
