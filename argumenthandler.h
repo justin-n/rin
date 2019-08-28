@@ -20,8 +20,6 @@ class ArgumentHandler {
 
         ResolvedArgumentValueContainer *resolvedArgumentValueContainer;
 
-        std::string searchString;
-
         void checkSyntax();
 
         bool isValidArgumentSyntax(std::string arg);
