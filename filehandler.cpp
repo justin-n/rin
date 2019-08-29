@@ -85,6 +85,8 @@ bool ignoreDirectory(std::string fileName, std::vector<std::string> directoriesT
         return true;
     }
 
+    std::transform(fileName.begin(), fileName.end(), fileName.begin(), ::tolower);
+
     if (std::find(directoriesToIgnore.begin(), directoriesToIgnore.end(), fileName) != directoriesToIgnore.end()) {
 
         return true;
