@@ -10,6 +10,8 @@ class ArgumentHandler {
 
     private:
 
+        static const int MAX_ARGUMENTS = 3;
+
         int argc;
 
         char** argv;

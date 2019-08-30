@@ -11,8 +11,6 @@
 #include "pipeoperations.h"
 #include "options.h"
 
-opts::option_fields getDefaultOptions();
-std::vector<std::string> getExtensionsToIgnore();
 void printUsage();
 
 int main(int argc, char** argv) {

@@ -7,11 +7,7 @@
 
 #include "resolvedargumentvaluecontainer.h"
 
-ArgumentHandler::ArgumentHandler(int argc, char** argv) {
-
-    this->argc = argc;
-
-    this->argv = argv;
+ArgumentHandler::ArgumentHandler(int argc, char** argv) : argc(argc), argv(argv) {
 
     this->resolvedArgumentValueContainer = new ResolvedArgumentValueContainer();
 }
@@ -25,14 +21,14 @@ void ArgumentHandler::init() {
 
     for (int i = 0; i < this->argc; i++) {
 
-        this->arguments.push_back(argv[i]);
+        this->arguments.push_back(this->argv[i]);
     }
 
     this->supportedArguments = this->getSupportedArguments();
 
     this->checkSyntax();
 
-    this->resolvedArgumentValueContainer->setSearchString(this->argv[argc - 1]);
+    this->resolvedArgumentValueContainer->setSearchString(this->argv[this->argc - 1]);
 
     for (int i = 1; i < ((this->argc) - 1); i++) {
 
@@ -50,7 +46,7 @@ void ArgumentHandler::checkSyntax() {
         throw std::runtime_error("Please provide at least a string to search");
     }
 
-    if (this->argc > 3) {
+    if (this->argc > this->MAX_ARGUMENTS) {
 
         throw std::runtime_error("Too many arguments");
     }
