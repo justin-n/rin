@@ -29,6 +29,6 @@ This program does not support patterns, just strings.
 
 It can be compiled in the same directory as all the files with this command:
 
-    g++ -static -o rin rin.cpp runtimestate.cpp cmdcolors.cpp matchprinter.cpp filehandler.cpp pipeoperations.cpp argumenthandler.cpp resolvedargumentvaluecontainer.cpp -lshlwapi
+    g++ -static -o rin src\*.cpp -lshlwapi
 
 Currently using g++ version 8.1.0 compiled on Windows 10
