@@ -24,6 +24,10 @@ int main(int argc, char** argv) {
 
         std::cout << "Exception: " << e.what() << std::endl;
 
+        std::cout << std::endl;
+
+        printUsage();
+
         delete argumentHandler;
 
         return 1;
