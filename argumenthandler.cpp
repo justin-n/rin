@@ -1,5 +1,6 @@
 #include "argumenthandler.h"
 
+#include <iostream>
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -19,47 +20,94 @@ ArgumentHandler::~ArgumentHandler() {
 
 void ArgumentHandler::init() {
 
-    for (int i = 0; i < this->argc; i++) {
-
-        this->arguments.push_back(this->argv[i]);
-    }
+    this->loadArgumentsIntoArgumentsVector();
 
     this->supportedArguments = this->getSupportedArguments();
 
-    this->checkSyntax();
+    this->checkAndResolveSyntax();
 
-    this->resolvedArgumentValueContainer->setSearchString(this->argv[this->argc - 1]);
-
-    for (int i = 1; i < ((this->argc) - 1); i++) {
+    for (int i = 1; i < this->commandSubjectLength; i++) {
 
         if (this->getArgumentName(this->arguments.at(i)).compare("ed") == 0) {
 
-            this->loadDirectoriesToIgnore(this->getArgumentValueOf(this->arguments.at(i)));
+            if (this->resolvedArgumentValueContainer->getOptions() & opts::search_single_file) {
+
+                std::cout << "[WARNING] Ignoring -ed argument" << std::endl;
+            }
+            else {
+
+                this->loadDirectoriesToIgnore(this->getArgumentValueOf(this->arguments.at(i)));
+            }
         }
     }
 }
 
-void ArgumentHandler::checkSyntax() {
+void ArgumentHandler::loadArgumentsIntoArgumentsVector() {
+
+    for (int i = 0; i < this->argc; i++) {
+
+        this->arguments.push_back(this->argv[i]);
+    }
+}
+
+void ArgumentHandler::checkAndResolveSyntax() {
+
+    this->checkForMinimumNumberOfArguments();
+
+    this->checkForMaximumNumberOfArguments();
+
+    this->resolveSyntax();
+
+    this->checkSyntax();
+
+    this->checkForArgumentSupport();
+}
+
+void ArgumentHandler::checkForMinimumNumberOfArguments() {
 
     if (this->argc == 1) {
 
         throw std::runtime_error("Please provide at least a string to search");
     }
+}
+
+void ArgumentHandler::checkForMaximumNumberOfArguments() {
 
     if (this->argc > this->MAX_ARGUMENTS) {
 
         throw std::runtime_error("Too many arguments");
     }
+}
 
-    for (int i = 1; i < (this->argc - 1); i++) {
+void ArgumentHandler::resolveSyntax() {
 
-        if (!isValidArgumentSyntax(arguments.at(i))) {
+    if ((this->argc > 2) && (!(this->isValidArgumentSyntax(this->arguments.at(this->argc - 2))))) {
 
-            throw std::runtime_error("Invalid argument syntax: " + arguments.at(i));
+        this->commandSubjectLength = (this->argc - 2);
+
+        this->resolvedArgumentValueContainer->setSearchString(this->arguments.at(this->argc - 2));
+
+        this->resolvedArgumentValueContainer->setFilenameToSearch(this->arguments.at(this->argc - 1));
+
+        this->resolvedArgumentValueContainer->setSearchSingleFileOption(true);
+    }
+    else {
+
+        this->commandSubjectLength = (this->argc - 1);
+
+        this->resolvedArgumentValueContainer->setSearchString(this->arguments.at(this->argc - 1));
+    }
+}
+
+void ArgumentHandler::checkSyntax() {
+
+    for (int i = 1; i < this->commandSubjectLength; i++) {
+
+        if (!(this->isValidArgumentSyntax(this->arguments.at(i)))) {
+
+            throw std::runtime_error("Invalid argument syntax: " + this->arguments.at(i));
         }
     }
-
-    this->checkForArgumentSupport();
 }
 
 bool ArgumentHandler::isValidArgumentSyntax(std::string arg) {
@@ -77,14 +125,19 @@ std::string ArgumentHandler::getSearchString() {
     return this->resolvedArgumentValueContainer->getSearchString();
 }
 
-std::vector<std::string> ArgumentHandler::getDirectoriesToIgnore() {
+std::string ArgumentHandler::getFilenameToSearch() {
 
-    return this->resolvedArgumentValueContainer->getDirectoriesToIgnore();
+    return this->resolvedArgumentValueContainer->getFilenameToSearch();
 }
 
 opts::option_fields ArgumentHandler::getOptions() {
 
     return this->resolvedArgumentValueContainer->getOptions();
+}
+
+std::vector<std::string> ArgumentHandler::getDirectoriesToIgnore() {
+
+    return this->resolvedArgumentValueContainer->getDirectoriesToIgnore();
 }
 
 std::vector<std::string> ArgumentHandler::getExtensionsToIgnore() {
@@ -103,9 +156,9 @@ std::vector<std::string> ArgumentHandler::getSupportedArguments() {
 
 void ArgumentHandler::checkForArgumentSupport() {
 
-    for (int i = 1; i < (this->argc - 1); i++) {
+    for (int i = 1; i < this->commandSubjectLength; i++) {
 
-        if (!isSupportedArgument(this->getArgumentName(this->arguments.at(i)))) {
+        if (!(this->isSupportedArgument(this->getArgumentName(this->arguments.at(i))))) {
 
             throw std::runtime_error("Argument not supported: " + arguments.at(i));
         }
@@ -114,9 +167,9 @@ void ArgumentHandler::checkForArgumentSupport() {
 
 bool ArgumentHandler::isSupportedArgument(std::string argName) {
 
-    return ( std::find(this->supportedArguments.begin(),
-                       this->supportedArguments.end(),
-                       argName) != this->supportedArguments.end());
+    return (std::find(this->supportedArguments.begin(),
+                      this->supportedArguments.end(),
+                      argName) != this->supportedArguments.end());
 
 }
 

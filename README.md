@@ -12,7 +12,9 @@ Named after the grep options that this program emulates by default:
 
 #### Usage
 
-    rin [-ed=[dirs]] [searchString]
+If a filename to search is not provided, files will be searched recursively from the working directory.
+
+    rin [-ed=[dirs]] searchString [FILENAME]
 
         -ed=[dirs]
             Ignore a comma-separated list of directory names

@@ -24,6 +24,28 @@ void ResolvedArgumentValueContainer::setSearchString(std::string searchString) {
     this->searchString = searchString;
 }
 
+std::string ResolvedArgumentValueContainer::getFilenameToSearch() {
+
+    return this->filenameToSearch;
+}
+
+void ResolvedArgumentValueContainer::setFilenameToSearch(std::string filenameToSearch) {
+
+    this->filenameToSearch = filenameToSearch;
+}
+
+void ResolvedArgumentValueContainer::setSearchSingleFileOption(bool value) {
+
+    if (value == true) {
+
+        this->options |= opts::search_single_file;
+    }
+    else {
+
+        this->options &= (~(opts::search_single_file));
+    }
+}
+
 opts::option_fields ResolvedArgumentValueContainer::getOptions() {
 
     return this->options;

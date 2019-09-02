@@ -60,14 +60,12 @@ void printMatchesInFile(std::string fileName, RunTimeState *runTimeState) {
         if (matchFound) {
 
             std::cout << std::endl;
-
         }
 
     }
     else {
 
         std::cout << "There was a problem opening the file: " << fileName << std::endl;
-
     }
 
 }
@@ -86,7 +84,6 @@ void printNumberedMatchesInLine(
     std::cout << twoSpaceIndent << lineNumber << ": ";
 
     printMatchesInLine(searchStringLen, matchedPositions, line);
-
 }
 
 void printMatchesInLine(size_t searchStringLen, std::vector<size_t> matchedPositions, std::string line) {
@@ -127,9 +124,7 @@ void printMatchesInLine(size_t searchStringLen, std::vector<size_t> matchedPosit
 
             printPos += line.substr(printPos).length();
         }
-
     }
-
 }
 
 std::vector<size_t> getMatchedPositions(std::string line, RunTimeState *runTimeState) {
@@ -145,8 +140,8 @@ std::vector<size_t> getMatchedPositions(std::string line, RunTimeState *runTimeS
     if (runTimeState->getOptions() & opts::ignore_case) {
 
         std::transform(line.begin(), line.end(), line.begin(), ::tolower);
-        std::transform(searchString.begin(), searchString.end(), searchString.begin(), ::tolower);
 
+        std::transform(searchString.begin(), searchString.end(), searchString.begin(), ::tolower);
     } 
 
     while ((substrPos = line.find(searchString, nextSearchStartIndex)) != std::string::npos) {
@@ -175,13 +170,11 @@ void printFileNameAndOrLineContainingMatch(
             std::cout << fileName << std::endl;
 
             matchFound = true;
-
         }
 
         printNumberedMatchesInLine(searchStringLen, matchedPositions, line, lineNumber);
 
         std::cout << std::endl;
-
     }
 }
 

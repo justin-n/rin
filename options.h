@@ -8,6 +8,7 @@ namespace opts {
     const int recursive          = 0x1;
     const int ignore_case        = 0x2;
     const int print_line_numbers = 0x4;
+    const int search_single_file = 0x8;
 
 }
 

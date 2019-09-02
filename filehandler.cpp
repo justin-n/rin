@@ -9,7 +9,6 @@
 #include "runtimestate.h"
 #include "filehandler.h"
 #include "matchprinter.h"
-#include "options.h"
 
 void enumerateAndSearchFiles(std::string directory, RunTimeState *runTimeState, int depthLevel) {
 
@@ -66,7 +65,7 @@ void enumerateAndSearchFiles(std::string directory, RunTimeState *runTimeState, 
 bool ignoreFileByExtension(std::string extension, std::vector<std::string> extensionsToIgnore) {
 
     for (int i = 0; i < extensionsToIgnore.size(); i++) {
-        
+
         if (extension.compare(extensionsToIgnore[i]) == 0) {
 
             return true;

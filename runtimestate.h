@@ -14,6 +14,8 @@ class RunTimeState {
 
         size_t searchStringLen;
 
+        std::string filenameToSearch;
+
         opts::option_fields options;
 
         std::vector<std::string> directoriesToIgnore;
@@ -24,6 +26,7 @@ class RunTimeState {
 
         RunTimeState(
             std::string searchString,
+            std::string fileToSearch,
             opts::option_fields options,
             std::vector<std::string> directoriesToIgnore,
             std::vector<std::string> extensionsToIgnore
@@ -34,6 +37,8 @@ class RunTimeState {
         std::string getSearchString();
 
         size_t getSearchStringLen();
+
+        std::string getFilenameToSearch();
 
         opts::option_fields getOptions();
 

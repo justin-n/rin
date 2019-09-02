@@ -10,7 +10,7 @@ class ArgumentHandler {
 
     private:
 
-        static const int MAX_ARGUMENTS = 3;
+        static const int MAX_ARGUMENTS = 4;
 
         int argc;
 
@@ -20,7 +20,19 @@ class ArgumentHandler {
 
         std::vector<std::string> supportedArguments;
 
+        int commandSubjectLength;
+
         ResolvedArgumentValueContainer *resolvedArgumentValueContainer;
+
+        void loadArgumentsIntoArgumentsVector();
+
+        void checkAndResolveSyntax();
+
+        void checkForMinimumNumberOfArguments();
+
+        void checkForMaximumNumberOfArguments();
+
+        void resolveSyntax();
 
         void checkSyntax();
 
@@ -50,9 +62,11 @@ class ArgumentHandler {
 
         std::string getSearchString();
 
-        std::vector<std::string> getDirectoriesToIgnore();
+        std::string getFilenameToSearch();
 
         opts::option_fields getOptions();
+
+        std::vector<std::string> getDirectoriesToIgnore();
 
         std::vector<std::string> getExtensionsToIgnore();
 };

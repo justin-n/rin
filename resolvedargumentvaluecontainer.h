@@ -12,6 +12,8 @@ class ResolvedArgumentValueContainer {
 
         std::string searchString;
 
+        std::string filenameToSearch;
+
         opts::option_fields options;
 
         std::vector<std::string> directoriesToIgnore;
@@ -32,7 +34,13 @@ class ResolvedArgumentValueContainer {
 
         void setSearchString(std::string searchString);
 
+        std::string getFilenameToSearch();
+
+        void setFilenameToSearch(std::string filenameToSearch);
+
         opts::option_fields getOptions();
+
+        void setSearchSingleFileOption(bool value);
 
         std::vector<std::string> getDirectoriesToIgnore();
 

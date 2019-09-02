@@ -27,10 +27,10 @@ int main(int argc, char** argv) {
         delete argumentHandler;
 
         return 1;
-
     }
 
     RunTimeState *runTimeState = new RunTimeState(argumentHandler->getSearchString(),
+                                                  argumentHandler->getFilenameToSearch(),
                                                   argumentHandler->getOptions(),
                                                   argumentHandler->getDirectoriesToIgnore(),
                                                   argumentHandler->getExtensionsToIgnore());
@@ -39,12 +39,18 @@ int main(int argc, char** argv) {
 
     if (_isatty(_fileno(stdin))) {
 
-        enumerateAndSearchFiles(".", runTimeState, 0);
+        if (runTimeState->getOptions() & opts::search_single_file) {
 
-    } else {
+            printMatchesInFile(runTimeState->getFilenameToSearch(), runTimeState);
+        }
+        else {
+
+            enumerateAndSearchFiles(".", runTimeState, 0);
+        }
+    }
+    else {
 
         searchStdout(runTimeState);
-
     }
 
     delete runTimeState;
@@ -55,9 +61,10 @@ int main(int argc, char** argv) {
 void printUsage() {
     std::cout << "Finds exact strings (not patterns) in the lines of files." << std::endl;
     std::cout << std::endl;
-    std::cout << "Files will be searched recursively from the current working directory." << std::endl;
+    std::cout << "If a filename to search is not provided, files will be searched" << std::endl;
+    std::cout << "recursively from the current working directory." << std::endl;
     std::cout << std::endl;
-    std::cout << "    rin [-ed=[dirs]] [searchString]" << std::endl;
+    std::cout << "    rin [-ed=[dirs]] searchString [FILE]" << std::endl;
     std::cout << std::endl;
     std::cout << "      -ed=[dirs]" << std::endl;
     std::cout << "          Ignore a comma-separated list of directory names" << std::endl;
