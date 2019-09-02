@@ -26,20 +26,7 @@ void ArgumentHandler::init() {
 
     this->checkAndResolveSyntax();
 
-    for (int i = 1; i < this->commandSubjectLength; i++) {
-
-        if (this->getArgumentName(this->arguments.at(i)).compare("ed") == 0) {
-
-            if (this->resolvedArgumentValueContainer->getOptions() & opts::search_single_file) {
-
-                std::cout << "[WARNING] Ignoring -ed argument" << std::endl;
-            }
-            else {
-
-                this->loadDirectoriesToIgnore(this->getArgumentValueOf(this->arguments.at(i)));
-            }
-        }
-    }
+    this->resolveExcludeDirectoryNamesArguments();
 }
 
 void ArgumentHandler::loadArgumentsIntoArgumentsVector() {
@@ -106,6 +93,24 @@ void ArgumentHandler::checkSyntax() {
         if (!(this->isValidArgumentSyntax(this->arguments.at(i)))) {
 
             throw std::runtime_error("Invalid argument syntax: " + this->arguments.at(i));
+        }
+    }
+}
+
+void ArgumentHandler::resolveExcludeDirectoryNamesArguments() {
+
+    for (int i = 1; i < this->commandSubjectLength; i++) {
+
+        if (this->getArgumentName(this->arguments.at(i)).compare("ed") == 0) {
+
+            if (this->resolvedArgumentValueContainer->getOptions() & opts::search_single_file) {
+
+                std::cout << "[WARNING] Ignoring -ed argument" << std::endl;
+            }
+            else {
+
+                this->loadDirectoriesToIgnore(this->getArgumentValueOf(this->arguments.at(i)));
+            }
         }
     }
 }
@@ -214,14 +219,15 @@ std::string ArgumentHandler::getArgumentValueOf(std::string arg) {
 
 void ArgumentHandler::loadDirectoriesToIgnore(std::string commaDelimitedDirectoryNameList) {
 
-    std::vector<std::string> directoriesToIgnore;
+    std::vector<std::string> directoriesToIgnore =
+                    this->resolvedArgumentValueContainer->getDirectoriesToIgnore();
 
-    std::vector<std::string> directoryNameList =
+    std::vector<std::string> additionalDirectoryNames =
                     this->getStringVectorFromStringWithDelimiter(commaDelimitedDirectoryNameList, ",");
 
-    for (int i = 0; i < directoryNameList.size(); i++) {
+    for (int i = 0; i < additionalDirectoryNames.size(); i++) {
 
-        std::string directoryName = directoryNameList.at(i);
+        std::string directoryName = additionalDirectoryNames.at(i);
 
         std::transform(directoryName.begin(), directoryName.end(), directoryName.begin(), ::tolower);
 

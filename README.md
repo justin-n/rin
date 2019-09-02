@@ -17,7 +17,9 @@ If a filename to search is not provided, files will be searched recursively from
     rin [-ed=[dirs]] searchString [FILENAME]
 
         -ed=[dirs]
-            Ignore a comma-separated list of directory names
+            Ignore a comma-separated list of directory names. If this
+            argument is repeated, the values of each argument will be
+            combined.
 
 Supports searching stdout by using the pipe operator:
 

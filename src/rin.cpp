@@ -71,7 +71,9 @@ void printUsage() {
     std::cout << "    rin [-ed=[dirs]] searchString [FILE]" << std::endl;
     std::cout << std::endl;
     std::cout << "      -ed=[dirs]" << std::endl;
-    std::cout << "          Ignore a comma-separated list of directory names" << std::endl;
+    std::cout << "          Ignore a comma-separated list of directory names. If" << std::endl;
+    std::cout << "          this argument is repeated, the values of each argument" << std::endl;
+    std::cout << "          will be combined." << std::endl;
     std::cout << std::endl;
     std::cout << "stdout can be searched by using rin through a pipe:" << std::endl;
     std::cout << std::endl;
