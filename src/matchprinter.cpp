@@ -105,7 +105,7 @@ void findAndPrintRegexMatchesInLine(std::string line,
 
             if (match->position() != currentPositionInLine) {
 
-                std::cout << line.substr(currentPositionInLine, match->position());
+                std::cout << line.substr(currentPositionInLine, (match->position() - currentPositionInLine));
 
                 currentPositionInLine = match->position();
             }
@@ -117,7 +117,7 @@ void findAndPrintRegexMatchesInLine(std::string line,
 
         if (currentPositionInLine != line.size()) {
 
-            std::cout << line.substr(currentPositionInLine, line.size()) << std::endl;
+            std::cout << line.substr(currentPositionInLine) << std::endl;
         }
         else {
 
