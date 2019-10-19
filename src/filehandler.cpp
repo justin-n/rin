@@ -10,7 +10,7 @@
 #include "filehandler.h"
 #include "matchprinter.h"
 
-void enumerateAndSearchFiles(std::string directory, RunTimeState *runTimeState, int depthLevel) {
+void enumerateAndSearchFiles(std::string directory, RuntimeState *runtimeState, int depthLevel) {
 
     WIN32_FIND_DATA wfd;
 
@@ -30,7 +30,7 @@ void enumerateAndSearchFiles(std::string directory, RunTimeState *runTimeState, 
 
             if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
                 
-                if (!ignoreDirectory(fileName, runTimeState->getDirectoriesToIgnore())) {
+                if (!ignoreDirectory(fileName, runtimeState->getDirectoriesToIgnore())) {
 
                     subDirectories.push_back(fileName);
                 }
@@ -39,9 +39,9 @@ void enumerateAndSearchFiles(std::string directory, RunTimeState *runTimeState, 
 
                 std::string fileExtension = PathFindExtension(fileName.c_str());
 
-                if (!ignoreFileByExtension(fileExtension, runTimeState->getExtensionsToIgnore())) {
+                if (!ignoreFileByExtension(fileExtension, runtimeState->getExtensionsToIgnore())) {
 
-                    printMatchesInFile( (directory + "\\" + fileName) , runTimeState);
+                    printMatchesInFile( (directory + "\\" + fileName) , runtimeState);
 
                 }
             }
@@ -56,7 +56,7 @@ void enumerateAndSearchFiles(std::string directory, RunTimeState *runTimeState, 
             
             for (int i = 0; i < subDirectories.size(); i++) {
 
-                enumerateAndSearchFiles( (directory +"\\"+ subDirectories[i]), runTimeState, depthLevel);
+                enumerateAndSearchFiles( (directory +"\\"+ subDirectories[i]), runtimeState, depthLevel);
             }
         }
     }

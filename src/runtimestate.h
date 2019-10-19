@@ -1,18 +1,21 @@
-#ifndef RunTimeState_H
-#define RunTimeState_H
+#ifndef RuntimeState_H
+#define RuntimeState_H
 
 #include <vector>
 #include <string>
+#include <regex>
 
 #include "options.h"
 
-class RunTimeState {
+class RuntimeState {
 
     private:
 
         std::string searchString;
 
         size_t searchStringLen;
+
+        std::regex searchRegex;
 
         std::string filenameToSearch;
 
@@ -24,7 +27,7 @@ class RunTimeState {
 
     public:
 
-        RunTimeState(
+        RuntimeState(
             std::string searchString,
             std::string fileToSearch,
             opts::option_fields options,
@@ -32,11 +35,15 @@ class RunTimeState {
             std::vector<std::string> extensionsToIgnore
         );
 
-        ~RunTimeState();
+        ~RuntimeState();
+
+        void init();
 
         std::string getSearchString();
 
         size_t getSearchStringLen();
+
+        std::regex getSearchRegex();
 
         std::string getFilenameToSearch();
 

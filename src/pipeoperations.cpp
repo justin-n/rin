@@ -8,15 +8,15 @@
 #include "matchprinter.h"
 #include "options.h"
 
-void searchStdout(RunTimeState *runTimeState) {
+void searchStdout(RuntimeState *runtimeState) {
 
     std::string inputLine;
 
-    size_t searchStringLen = runTimeState->getSearchStringLen();
+    size_t searchStringLen = runtimeState->getSearchStringLen();
 
     while (getline(std::cin, inputLine)) {
 
-        std::vector<size_t> matchedPositions = getMatchedPositions(inputLine, runTimeState);
+        std::vector<size_t> matchedPositions = getMatchedPositions(inputLine, runtimeState);
 
         if (matchedPositions.size() > 0) {
 

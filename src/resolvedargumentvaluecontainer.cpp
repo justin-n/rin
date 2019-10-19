@@ -46,6 +46,18 @@ void ResolvedArgumentValueContainer::setSearchSingleFileOption(bool value) {
     }
 }
 
+void ResolvedArgumentValueContainer::setRegexSearchOption(bool value) {
+
+    if (value == true) {
+
+        this->options |= opts::regex_search;
+    }
+    else {
+
+        this->options &= (~(opts::regex_search));
+    }
+}
+
 opts::option_fields ResolvedArgumentValueContainer::getOptions() {
 
     return this->options;

@@ -7,7 +7,7 @@
 #include "runtimestate.h"
 #include "options.h"
 
-void enumerateAndSearchFiles(std::string directory, RunTimeState *runTimeState, int depthLevel);
+void enumerateAndSearchFiles(std::string directory, RuntimeState *runtimeState, int depthLevel);
 
 bool ignoreFileByExtension(std::string extension, std::vector<std::string> extensionsToIgnore);
 

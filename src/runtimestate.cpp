@@ -5,7 +5,7 @@
 
 #include "options.h"
 
-RunTimeState::RunTimeState(
+RuntimeState::RuntimeState(
 
     std::string searchString,
     std::string filenameToSearch,
@@ -17,33 +17,47 @@ RunTimeState::RunTimeState(
           filenameToSearch(filenameToSearch),
           options(options),
           directoriesToIgnore(directoriesToIgnore),
-          extensionsToIgnore(extensionsToIgnore) {
+          extensionsToIgnore(extensionsToIgnore) { }
 
-    this->searchStringLen = searchString.size();
+RuntimeState::~RuntimeState() { }
+
+void RuntimeState::init() {
+
+    if (this->options & opts::regex_search) {
+
+        this->searchRegex = std::regex(this->searchString);
+    }
+    else {
+
+        this->searchStringLen = this->searchString.size();
+    }
 }
 
-RunTimeState::~RunTimeState() { }
-
-std::string RunTimeState::getSearchString() {
+std::string RuntimeState::getSearchString() {
     return this->searchString;
 }
 
-size_t RunTimeState::getSearchStringLen() {
+size_t RuntimeState::getSearchStringLen() {
     return this->searchStringLen;
 }
 
-std::string RunTimeState::getFilenameToSearch() {
+std::regex RuntimeState::getSearchRegex() {
+
+    return this->searchRegex;
+}
+
+std::string RuntimeState::getFilenameToSearch() {
     return this->filenameToSearch;
 }
 
-opts::option_fields RunTimeState::getOptions() {
+opts::option_fields RuntimeState::getOptions() {
     return this->options;
 }
 
-std::vector<std::string> RunTimeState::getDirectoriesToIgnore() {
+std::vector<std::string> RuntimeState::getDirectoriesToIgnore() {
     return this->directoriesToIgnore;
 }
 
-std::vector<std::string> RunTimeState::getExtensionsToIgnore() {
+std::vector<std::string> RuntimeState::getExtensionsToIgnore() {
     return this->extensionsToIgnore;
 }

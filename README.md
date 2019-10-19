@@ -14,20 +14,23 @@ Named after the grep options that this program emulates by default:
 
 If a filename to search is not provided, files will be searched recursively from the working directory.
 
-    rin [-ed=[dirs]] searchString [FILENAME]
+    rin [-ed=[dirs]] [-rgx] searchString [FILENAME]
 
         -ed=[dirs]
             Ignore a comma-separated list of directory names. If this
             argument is repeated, the values of each argument will be
             combined.
 
+        -rgx
+            searchString will be treated as a regex string. If this
+            argument is not included, searchString will be treated as
+            a literal string.
+
 Supports searching stdout by using the pipe operator:
 
     <command> | rin [searchString]
 
 #### Other Information
-
-This program does not support patterns, just strings.
 
 It can be compiled in the same directory as all the files with this command:
 

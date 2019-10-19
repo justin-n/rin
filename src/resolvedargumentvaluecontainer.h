@@ -42,6 +42,8 @@ class ResolvedArgumentValueContainer {
 
         void setSearchSingleFileOption(bool value);
 
+        void setRegexSearchOption(bool value);
+
         std::vector<std::string> getDirectoriesToIgnore();
 
         void setDirectoriesToIgnore(std::vector<std::string> directoriesToIgnore);

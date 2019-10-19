@@ -6,6 +6,6 @@
 #include "options.h"
 #include "runtimestate.h"
 
-void searchStdout(RunTimeState *runTimeState);
+void searchStdout(RuntimeState *runtimeState);
 
 #endif

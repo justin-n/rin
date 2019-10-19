@@ -5,33 +5,43 @@
 #include <string>
 #include <algorithm>
 #include <fstream>
+#include <iterator>
+#include <regex>
 
 #include "cmdcolors.h"
 #include "options.h"
 
-void printMatchesInFile(std::string fileName, RunTimeState *runTimeState);
-
+void printMatchesInFile(std::string fileName, RuntimeState *runtimeState);
+void findAndPrintRegexMatchesInLine(std::string line,
+                                    std::string fileName,
+                                    bool &matchFound,
+                                    int lineNumber,
+                                    RuntimeState *runtimeState);
+void findAndPrintStringMatchesInLine(std::string line,
+                                     std::string fileName,
+                                     bool &matchFound,
+                                     size_t searchStringLen,
+                                     int lineNumber,
+                                     RuntimeState *runtimeState);
 void printNumberedMatchesInLine(size_t searchStringLen, std::vector<size_t> matchedPositions, std::string line, int lineNumber);
-
 void printMatchesInLine(size_t searchStringLen, std::vector<size_t> matchedPositions, std::string line);
-
-std::vector<size_t> getMatchedPositions(std::string line, RunTimeState *runTimeState);
-
+std::vector<size_t> getMatchedPositions(std::string line, RuntimeState *runtimeState);
+void printFileNameIfFirstMatchInFile(std::string fileName, bool &matchFound);
 void printMatchedString(std::string line, size_t printPos, size_t searchStringLen);
-
-void printFileNameAndOrLineContainingMatch(
-        std::vector<size_t> matchedPositions,
-        bool &matchFound,
-        std::string fileName,
-        int searchStringLen,
-        std::string line,
-        int lineNumber);
+void printMatchedString(std::string matchedString);
+void printFileNameAndOrLineContainingMatch(std::vector<size_t> matchedPositions,
+                                           bool &matchFound,
+                                           std::string fileName,
+                                           int searchStringLen,
+                                           std::string line,
+                                           int lineNumber);
 
 std::string twoSpaceIndent = "  ";
+std::string colonSpace = ": ";
 
-void printMatchesInFile(std::string fileName, RunTimeState *runTimeState) {
+void printMatchesInFile(std::string fileName, RuntimeState *runtimeState) {
 
-    size_t searchStringLen = runTimeState->getSearchStringLen();
+    size_t searchStringLen = runtimeState->getSearchStringLen();
 
     std::ifstream infile(fileName);
 
@@ -45,16 +55,16 @@ void printMatchesInFile(std::string fileName, RunTimeState *runTimeState) {
 
         while (std::getline(infile, line)) {
 
-            size_t substrPos;
-            size_t nextSearchStartIndex = 0;
+            if (runtimeState->getOptions() & opts::regex_search) {
 
-            std::vector<size_t> matchedPositions = getMatchedPositions(line, runTimeState);
+                findAndPrintRegexMatchesInLine(line, fileName, matchFound, lineNumber, runtimeState);
+            }
+            else {
 
-            printFileNameAndOrLineContainingMatch(
-                matchedPositions, matchFound, fileName, searchStringLen, line, lineNumber);
+                findAndPrintStringMatchesInLine(line, fileName, matchFound, searchStringLen, lineNumber, runtimeState);
+            }
 
             lineNumber++;
-
         }
 
         if (matchFound) {
@@ -67,7 +77,66 @@ void printMatchesInFile(std::string fileName, RunTimeState *runTimeState) {
 
         std::cout << "There was a problem opening the file: " << fileName << std::endl;
     }
+}
 
+void findAndPrintRegexMatchesInLine(std::string line,
+                                    std::string fileName,
+                                    bool &matchFound,
+                                    int lineNumber,
+                                    RuntimeState *runtimeState) {
+
+    std::vector<std::match_results<std::string::const_iterator> > matchResults;
+
+    std::regex regex = runtimeState->getSearchRegex();
+
+    std::sregex_iterator begin = std::sregex_iterator(line.begin(), line.end(), regex);
+
+    std::sregex_iterator end;
+
+    if (begin != end) {
+
+        printFileNameIfFirstMatchInFile(fileName, matchFound);
+
+        std::cout << twoSpaceIndent << lineNumber << colonSpace;
+
+        int currentPositionInLine = 0;
+
+        for (std::sregex_iterator match = begin; match != end; match++) {
+
+            if (match->position() != currentPositionInLine) {
+
+                std::cout << line.substr(currentPositionInLine, match->position());
+
+                currentPositionInLine = match->position();
+            }
+
+            printMatchedString(match->str());
+
+            currentPositionInLine = (currentPositionInLine + match->length());
+        }
+
+        if (currentPositionInLine != line.size()) {
+
+            std::cout << line.substr(currentPositionInLine, line.size()) << std::endl;
+        }
+        else {
+
+            std::cout << std::endl;
+        }
+    }
+}
+
+void findAndPrintStringMatchesInLine(std::string line,
+                                     std::string fileName,
+                                     bool &matchFound,
+                                     size_t searchStringLen,
+                                     int lineNumber,
+                                     RuntimeState *runtimeState) {
+
+    std::vector<size_t> matchedPositions = getMatchedPositions(line, runtimeState);
+
+    printFileNameAndOrLineContainingMatch(
+        matchedPositions, matchFound, fileName, searchStringLen, line, lineNumber);
 }
 
 void printNumberedMatchesInLine(
@@ -81,7 +150,7 @@ void printNumberedMatchesInLine(
 
     }
 
-    std::cout << twoSpaceIndent << lineNumber << ": ";
+    std::cout << twoSpaceIndent << lineNumber << colonSpace;
 
     printMatchesInLine(searchStringLen, matchedPositions, line);
 }
@@ -127,17 +196,17 @@ void printMatchesInLine(size_t searchStringLen, std::vector<size_t> matchedPosit
     }
 }
 
-std::vector<size_t> getMatchedPositions(std::string line, RunTimeState *runTimeState) {
+std::vector<size_t> getMatchedPositions(std::string line, RuntimeState *runtimeState) {
 
     size_t substrPos;
     size_t nextSearchStartIndex = 0;
 
-    std::string searchString = runTimeState->getSearchString();
-    size_t searchStringLen = runTimeState->getSearchStringLen();
+    std::string searchString = runtimeState->getSearchString();
+    size_t searchStringLen = runtimeState->getSearchStringLen();
 
     std::vector<size_t> matchedPositions;
 
-    if (runTimeState->getOptions() & opts::ignore_case) {
+    if (runtimeState->getOptions() & opts::ignore_case) {
 
         std::transform(line.begin(), line.end(), line.begin(), ::tolower);
 
@@ -165,16 +234,21 @@ void printFileNameAndOrLineContainingMatch(
 
     if (matchedPositions.size() > 0) {
 
-        if (!matchFound) {
-
-            std::cout << fileName << std::endl;
-
-            matchFound = true;
-        }
+        printFileNameIfFirstMatchInFile(fileName, matchFound);
 
         printNumberedMatchesInLine(searchStringLen, matchedPositions, line, lineNumber);
 
         std::cout << std::endl;
+    }
+}
+
+void printFileNameIfFirstMatchInFile(std::string fileName, bool &matchFound) {
+
+    if (!matchFound) {
+
+        std::cout << fileName << std::endl;
+
+        matchFound = true;
     }
 }
 
@@ -183,6 +257,15 @@ void printMatchedString(std::string line, size_t printPos, size_t searchStringLe
     setTextToRed();
 
     std::cout << line.substr(printPos, searchStringLen);
+
+    setTextToUserColor();
+}
+
+void printMatchedString(std::string matchedString) {
+
+    setTextToRed();
+
+    std::cout << matchedString;
 
     setTextToUserColor();
 }

@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    RunTimeState *runTimeState = new RunTimeState(argumentHandler->getSearchString(),
+    RuntimeState *runtimeState = new RuntimeState(argumentHandler->getSearchString(),
                                                   argumentHandler->getFilenameToSearch(),
                                                   argumentHandler->getOptions(),
                                                   argumentHandler->getDirectoriesToIgnore(),
@@ -41,29 +41,43 @@ int main(int argc, char** argv) {
 
     delete argumentHandler;
 
+    try {
+        runtimeState->init();
+    }
+    catch (const std::regex_error &e) {
+
+        std::cout << "Regex error: " << e.what() << std::endl;
+
+        std::cout << std::endl;
+
+        delete runtimeState;
+
+        return 1;
+    }
+
     if (_isatty(_fileno(stdin))) {
 
-        if (runTimeState->getOptions() & opts::search_single_file) {
+        if (runtimeState->getOptions() & opts::search_single_file) {
 
-            printMatchesInFile(runTimeState->getFilenameToSearch(), runTimeState);
+            printMatchesInFile(runtimeState->getFilenameToSearch(), runtimeState);
         }
         else {
 
-            enumerateAndSearchFiles(".", runTimeState, 0);
+            enumerateAndSearchFiles(".", runtimeState, 0);
         }
     }
     else {
 
-        searchStdout(runTimeState);
+        searchStdout(runtimeState);
     }
 
-    delete runTimeState;
+    delete runtimeState;
 
     return 0;
 }
 
 void printUsage() {
-    std::cout << "Finds exact strings (not patterns) in the lines of files." << std::endl;
+    std::cout << "Finds strings or patterns in the lines of files." << std::endl;
     std::cout << std::endl;
     std::cout << "If a filename to search is not provided, files will be searched" << std::endl;
     std::cout << "recursively from the current working directory." << std::endl;
@@ -74,6 +88,11 @@ void printUsage() {
     std::cout << "          Ignore a comma-separated list of directory names. If" << std::endl;
     std::cout << "          this argument is repeated, the values of each argument" << std::endl;
     std::cout << "          will be combined." << std::endl;
+    std::cout << std::endl;
+    std::cout << "      -rgx" << std::endl;
+    std::cout << "          searchString will be treated as a regex string. If this" << std::endl;
+    std::cout << "          argument is not included, searchString will be treated as" << std::endl;
+    std::cout << "          a literal string." << std::endl;
     std::cout << std::endl;
     std::cout << "stdout can be searched by using rin through a pipe:" << std::endl;
     std::cout << std::endl;
