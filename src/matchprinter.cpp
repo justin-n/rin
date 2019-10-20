@@ -85,8 +85,6 @@ void findAndPrintRegexMatchesInLine(std::string line,
                                     int lineNumber,
                                     RuntimeState *runtimeState) {
 
-    std::vector<std::match_results<std::string::const_iterator> > matchResults;
-
     std::regex regex = runtimeState->getSearchRegex();
 
     std::sregex_iterator begin = std::sregex_iterator(line.begin(), line.end(), regex);
