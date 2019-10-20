@@ -23,8 +23,6 @@ void searchStdout(RuntimeState *runtimeState) {
             printMatchesInLine(searchStringLen, matchedPositions, inputLine);
 
             std::cout << std::endl;
-
         }
-
     }
 }

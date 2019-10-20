@@ -2,11 +2,6 @@
 
 #include <windows.h>
 
-WORD getUserTextAttributes();
-void setTextToRed();
-void setTextToGreen();
-void setTextToUserColor();
-
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 WORD userTextAttributes = getUserTextAttributes();

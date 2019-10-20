@@ -1,8 +1,6 @@
 #include <iostream>
 #include <string>
-#include <vector>
 #include <io.h>
-#include <windows.h>
 
 #include "argumenthandler.h"
 #include "runtimestate.h"
@@ -82,7 +80,7 @@ void printUsage() {
     std::cout << "If a filename to search is not provided, files will be searched" << std::endl;
     std::cout << "recursively from the current working directory." << std::endl;
     std::cout << std::endl;
-    std::cout << "    rin [-ed=[dirs]] searchString [FILE]" << std::endl;
+    std::cout << "    rin [-ed=[dirs]] [-rgx] searchString [FILE]" << std::endl;
     std::cout << std::endl;
     std::cout << "      -ed=[dirs]" << std::endl;
     std::cout << "          Ignore a comma-separated list of directory names. If" << std::endl;
