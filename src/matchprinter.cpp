@@ -99,6 +99,43 @@ void findAndPrintRegexMatchesInLine(std::string line,
     }
 }
 
+void findAndPrintRegexMatchesInLine(std::string line, RuntimeState *runtimeState) {
+
+    std::regex regex = runtimeState->getSearchRegex();
+
+    std::sregex_iterator begin = std::sregex_iterator(line.begin(), line.end(), regex);
+
+    std::sregex_iterator end;
+
+    if (begin != end) {
+
+        int currentPositionInLine = 0;
+
+        for (std::sregex_iterator match = begin; match != end; match++) {
+
+            if (match->position() != currentPositionInLine) {
+
+                std::cout << line.substr(currentPositionInLine, (match->position() - currentPositionInLine));
+
+                currentPositionInLine = match->position();
+            }
+
+            printMatchedString(match->str());
+
+            currentPositionInLine = (currentPositionInLine + match->length());
+        }
+
+        if (currentPositionInLine != line.size()) {
+
+            std::cout << line.substr(currentPositionInLine) << std::endl;
+        }
+        else {
+
+            std::cout << std::endl;
+        }
+    }
+}
+
 void findAndPrintStringMatchesInLine(std::string line,
                                      std::string fileName,
                                      bool &matchFound,

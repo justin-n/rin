@@ -8,7 +8,7 @@
 #include "matchprinter.h"
 #include "options.h"
 
-void searchStdout(RuntimeState *runtimeState) {
+void printStringMatchesInStdout(RuntimeState *runtimeState) {
 
     std::string inputLine;
 
@@ -24,5 +24,15 @@ void searchStdout(RuntimeState *runtimeState) {
 
             std::cout << std::endl;
         }
+    }
+}
+
+void printRegexMatchesInStdout(RuntimeState *runtimeState) {
+
+    std::string inputLine;
+
+    while (getline(std::cin, inputLine)) {
+
+        findAndPrintRegexMatchesInLine(inputLine, runtimeState);
     }
 }

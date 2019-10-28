@@ -28,7 +28,7 @@ If a filename to search is not provided, files will be searched recursively from
 
 Supports searching stdout by using the pipe operator:
 
-    <command> | rin [searchString]
+    <command> | rin [-rgx] [searchString]
 
 #### Other Information
 

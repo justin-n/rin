@@ -19,6 +19,8 @@ void findAndPrintRegexMatchesInLine(std::string line,
                                     int lineNumber,
                                     RuntimeState *runtimeState);
 
+void findAndPrintRegexMatchesInLine(std::string line, RuntimeState *runtimeState);
+
 void findAndPrintStringMatchesInLine(std::string line,
                                      std::string fileName,
                                      bool &matchFound,

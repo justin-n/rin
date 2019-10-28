@@ -66,7 +66,14 @@ int main(int argc, char** argv) {
     }
     else {
 
-        searchStdout(runtimeState);
+        if (runtimeState->getOptions() & opts::regex_search) {
+
+            printRegexMatchesInStdout(runtimeState);
+        }
+        else {
+
+            printStringMatchesInStdout(runtimeState);
+        }
     }
 
     delete runtimeState;
@@ -94,6 +101,6 @@ void printUsage() {
     std::cout << std::endl;
     std::cout << "stdout can be searched by using rin through a pipe:" << std::endl;
     std::cout << std::endl;
-    std::cout << "    <command> | rin [searchString]" << std::endl;
+    std::cout << "    <command> | rin [-rgx] [searchString]" << std::endl;
     std::cout << std::endl;
 }

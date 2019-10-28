@@ -3,6 +3,8 @@
 
 #include "runtimestate.h"
 
-void searchStdout(RuntimeState *runtimeState);
+void printStringMatchesInStdout(RuntimeState *runtimeState);
+
+void printRegexMatchesInStdout(RuntimeState *runtimeState);
 
 #endif
