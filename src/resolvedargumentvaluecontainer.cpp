@@ -58,6 +58,18 @@ void ResolvedArgumentValueContainer::setRegexSearchOption(bool value) {
     }
 }
 
+void ResolvedArgumentValueContainer::setVerboseOption(bool value) {
+
+    if (value == true) {
+
+        this->options |= opts::verbose;
+    }
+    else {
+
+        this->options &= (~(opts::verbose));
+    }
+}
+
 opts::option_fields ResolvedArgumentValueContainer::getOptions() {
 
     return this->options;

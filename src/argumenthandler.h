@@ -10,7 +10,7 @@ class ArgumentHandler {
 
     private:
 
-        static const int MAX_ARGUMENTS = 6;
+        static const int MAX_ARGUMENTS = 7;
 
         int argc;
 
@@ -39,6 +39,8 @@ class ArgumentHandler {
         void resolveExcludeDirectoryNamesArguments();
 
         void resolveRegexSwitch();
+
+        void resolveVerboseSwitch();
 
         bool isValidArgumentSyntax(std::string arg);
 

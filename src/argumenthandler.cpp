@@ -29,6 +29,8 @@ void ArgumentHandler::init() {
     this->resolveExcludeDirectoryNamesArguments();
 
     this->resolveRegexSwitch();
+
+    this->resolveVerboseSwitch();
 }
 
 void ArgumentHandler::loadArgumentsIntoArgumentsVector() {
@@ -128,6 +130,17 @@ void ArgumentHandler::resolveRegexSwitch() {
     }
 }
 
+void ArgumentHandler::resolveVerboseSwitch() {
+
+    for (int i = 1; i < this->commandSubjectLength; i++) {
+
+        if (this->getArgumentName(this->arguments.at(i)).compare("v") == 0) {
+
+            this->resolvedArgumentValueContainer->setVerboseOption(true);
+        }
+    }
+}
+
 bool ArgumentHandler::isValidArgumentSyntax(std::string arg) {
 
     if ((arg.substr(0, 1).compare("-") == 0) || (arg.substr(0, 2).compare("--") == 0)) {
@@ -170,6 +183,8 @@ std::vector<std::string> ArgumentHandler::getSupportedArguments() {
     supportedArguments.push_back("ed");
 
     supportedArguments.push_back("rgx");
+
+    supportedArguments.push_back("v");
 
     return supportedArguments;
 }

@@ -99,6 +99,12 @@ void printUsage() {
     std::cout << "          argument is not included, searchString will be treated as" << std::endl;
     std::cout << "          a literal string." << std::endl;
     std::cout << std::endl;
+    std::cout << "      -v" << std::endl;
+    std::cout << "          Verbose output will be used. Currently, each file being" << std::endl;
+    std::cout << "          searched will be printed. This can be useful for finding" << std::endl;
+    std::cout << "          directories that could be ignored to reduce the time of" << std::endl;
+    std::cout << "          long searches." << std::endl;
+    std::cout << std::endl;
     std::cout << "stdout can be searched by using rin through a pipe:" << std::endl;
     std::cout << std::endl;
     std::cout << "    <command> | rin [-rgx] [searchString]" << std::endl;

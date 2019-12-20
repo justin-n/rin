@@ -9,6 +9,7 @@
 #include "runtimestate.h"
 #include "filehandler.h"
 #include "matchprinter.h"
+#include "options.h"
 
 void enumerateAndSearchFiles(std::string directory, RuntimeState *runtimeState, int depthLevel) {
 
@@ -40,6 +41,11 @@ void enumerateAndSearchFiles(std::string directory, RuntimeState *runtimeState, 
                 std::string fileExtension = PathFindExtension(fileName.c_str());
 
                 if (!ignoreFileByExtension(fileExtension, runtimeState->getExtensionsToIgnore())) {
+
+                    if (runtimeState->getOptions() & opts::verbose) {
+
+                        std::cout << (directory + "\\" + fileName) << std::endl;
+                    }
 
                     printMatchesInFile( (directory + "\\" + fileName) , runtimeState);
 

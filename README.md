@@ -14,7 +14,7 @@ Named after the grep options that this program emulates by default:
 
 If a filename to search is not provided, files will be searched recursively from the working directory.
 
-    rin [-ed=[dirs]] [-rgx] searchString [FILENAME]
+    rin [-ed=[dirs]] [-rgx] [-v] searchString [FILENAME]
 
         -ed=[dirs]
             Ignore a comma-separated list of directory names. If this
@@ -25,6 +25,12 @@ If a filename to search is not provided, files will be searched recursively from
             searchString will be treated as a regex string. If this
             argument is not included, searchString will be treated as
             a literal string.
+
+        -v
+            Verbose output will be used. Currently, each file being
+            searched will be printed. This can be useful for finding
+            directories that could be ignored to reduce the time of
+            long searches.
 
 Supports searching stdout by using the pipe operator:
 

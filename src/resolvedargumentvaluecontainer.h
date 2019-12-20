@@ -44,6 +44,8 @@ class ResolvedArgumentValueContainer {
 
         void setRegexSearchOption(bool value);
 
+        void setVerboseOption(bool value);
+
         std::vector<std::string> getDirectoriesToIgnore();
 
         void setDirectoriesToIgnore(std::vector<std::string> directoriesToIgnore);
