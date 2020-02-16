@@ -23,6 +23,10 @@ class RuntimeState {
 
         std::regex fileNameRegex;
 
+        std::string maxDepthString;
+
+        int maxDepth;
+
         opts::option_fields options;
 
         std::vector<std::string> directoriesToIgnore;
@@ -35,6 +39,7 @@ class RuntimeState {
             std::string searchString,
             std::string fileToSearch,
             std::string fileNameRegexString,
+            std::string maxDepthString,
             opts::option_fields options,
             std::vector<std::string> directoriesToIgnore,
             std::vector<std::string> extensionsToIgnore
@@ -52,9 +57,9 @@ class RuntimeState {
 
         std::string getFileNameToSearch();
 
-        std::string getFileNameRegexString();
-
         std::regex getFileNameRegex();
+
+        int getMaxDepth();
 
         opts::option_fields getOptions();
 

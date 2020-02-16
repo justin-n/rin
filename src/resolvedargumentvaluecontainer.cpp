@@ -44,6 +44,16 @@ void ResolvedArgumentValueContainer::setFileNameRegexString(std::string fileName
     this->fileNameRegexString = fileNameRegexString;
 }
 
+std::string ResolvedArgumentValueContainer::getMaxDepthString() {
+
+    return this->maxDepthString;
+}
+
+void ResolvedArgumentValueContainer::setMaxDepthString(std::string maxDepthString) {
+
+    this->maxDepthString = maxDepthString;
+}
+
 void ResolvedArgumentValueContainer::setSearchSingleFileOption(bool value) {
 
     if (value == true) {
@@ -89,6 +99,18 @@ void ResolvedArgumentValueContainer::setFileNameMatchOption(bool value) {
     else {
 
         this-> options &= (~(opts::file_name_match));
+    }
+}
+
+void ResolvedArgumentValueContainer::setMaxDepthOption(bool value) {
+
+    if (value == true) {
+
+        this->options |= opts::max_depth;
+    }
+    else {
+
+        this->options &= (~(opts::max_depth));
     }
 }
 

@@ -10,6 +10,7 @@ RuntimeState::RuntimeState(
     std::string searchString,
     std::string fileNameToSearch,
     std::string fileNameRegexString,
+    std::string maxDepthString,
     opts::option_fields options,
     std::vector<std::string> directoriesToIgnore,
     std::vector<std::string> extensionsToIgnore)
@@ -17,6 +18,7 @@ RuntimeState::RuntimeState(
         : searchString(searchString),
           fileNameToSearch(fileNameToSearch),
           fileNameRegexString(fileNameRegexString),
+          maxDepthString(maxDepthString),
           options(options),
           directoriesToIgnore(directoriesToIgnore),
           extensionsToIgnore(extensionsToIgnore) { }
@@ -38,6 +40,11 @@ void RuntimeState::init() {
 
         this->fileNameRegex = std::regex(this->fileNameRegexString);
     }
+
+    if (this->options & opts::max_depth) {
+
+        this->maxDepth = std::stoi(this->maxDepthString);
+    }
 }
 
 std::string RuntimeState::getSearchString() {
@@ -56,12 +63,12 @@ std::string RuntimeState::getFileNameToSearch() {
     return this->fileNameToSearch;
 }
 
-std::string RuntimeState::getFileNameRegexString() {
-    return this->fileNameRegexString;
-}
-
 std::regex RuntimeState::getFileNameRegex() {
     return this->fileNameRegex;
+}
+
+int RuntimeState::getMaxDepth() {
+    return this->maxDepth;
 }
 
 opts::option_fields RuntimeState::getOptions() {

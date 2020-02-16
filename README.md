@@ -14,7 +14,7 @@ Named after the grep options that this program emulates by default:
 
 If a filename to search is not provided, files will be searched recursively from the working directory.
 
-    rin [-ed=[dirs]] [-in=[PATTERN]] [-rgx] [-v] searchString [FILENAME]
+    rin [-ed=[dirs]] [-in=[PATTERN]] [-md=[depth]] [-rgx] [-v] searchString [FILENAME]
 
         -ed=[dirs]
             Ignore a comma-separated list of directory names. If this
@@ -24,6 +24,13 @@ If a filename to search is not provided, files will be searched recursively from
         -in=[PATTERN]
             Only search files which have a file name matching the
             PATTERN.
+
+        -md=[depth]
+            Search directories recursively with a maximum depth of
+            the depth provided. Depth is an integer value parsed by
+            std::stoi. The current directory has a depth of 0. If a
+            negative value is provided, only the current directory
+            will be searched.
 
         -rgx
             searchString will be treated as a regex string. If this

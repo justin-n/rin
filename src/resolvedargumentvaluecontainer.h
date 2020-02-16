@@ -16,6 +16,8 @@ class ResolvedArgumentValueContainer {
 
         std::string fileNameRegexString;
 
+        std::string maxDepthString;
+
         opts::option_fields options;
 
         std::vector<std::string> directoriesToIgnore;
@@ -44,6 +46,10 @@ class ResolvedArgumentValueContainer {
 
         void setFileNameRegexString(std::string fileNameRegexString);
 
+        std::string getMaxDepthString();
+
+        void setMaxDepthString(std::string maxDepthString);
+
         opts::option_fields getOptions();
 
         void setSearchSingleFileOption(bool value);
@@ -53,6 +59,8 @@ class ResolvedArgumentValueContainer {
         void setVerboseOption(bool value);
 
         void setFileNameMatchOption(bool value);
+
+        void setMaxDepthOption(bool value);
 
         std::vector<std::string> getDirectoriesToIgnore();
 

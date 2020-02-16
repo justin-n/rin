@@ -9,6 +9,11 @@
 
 void enumerateAndSearchFiles(std::string directory, RuntimeState *runtimeState, int depthLevel);
 
+void searchFilesInSubdirectories(std::vector<std::string> subdirectories,
+                                 std::string directory,
+                                 int depthLevel,
+                                 RuntimeState *runtimeState);
+
 bool ignoreFileByExtension(std::string extension, std::vector<std::string> extensionsToIgnore);
 
 bool ignoreDirectory(std::string fileName, std::vector<std::string> directoriesToIgnore);

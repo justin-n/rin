@@ -33,6 +33,8 @@ void ArgumentHandler::init() {
     this->resolveVerboseSwitch();
 
     this->resolveFileNameMatchSwitchAndFileNameRegexString();
+
+    this->resolveMaxDepthSwitchAndMaxDepth();
 }
 
 void ArgumentHandler::loadArgumentsIntoArgumentsVector() {
@@ -157,6 +159,20 @@ void ArgumentHandler::resolveFileNameMatchSwitchAndFileNameRegexString() {
     }
 }
 
+void ArgumentHandler::resolveMaxDepthSwitchAndMaxDepth() {
+
+    for (int i = 1; i < this->commandSubjectLength; i++) {
+
+        if (this->getArgumentName(this->arguments.at(i)).compare("md")  == 0)  {
+
+            this->resolvedArgumentValueContainer->setMaxDepthOption(true);
+
+            this->resolvedArgumentValueContainer
+                    ->setMaxDepthString(this->getArgumentValueOf(this->arguments.at(i)));
+        }
+    }
+}
+
 bool ArgumentHandler::isValidArgumentSyntax(std::string arg) {
 
     if ((arg.substr(0, 1).compare("-") == 0) || (arg.substr(0, 2).compare("--") == 0)) {
@@ -180,6 +196,11 @@ std::string ArgumentHandler::getFileNameToSearch() {
 std::string ArgumentHandler::getFileNameRegexString() {
 
     return this->resolvedArgumentValueContainer->getFileNameRegexString();
+}
+
+std::string ArgumentHandler::getMaxDepthString() {
+
+    return this->resolvedArgumentValueContainer->getMaxDepthString();
 }
 
 opts::option_fields ArgumentHandler::getOptions() {
@@ -208,6 +229,8 @@ std::vector<std::string> ArgumentHandler::getSupportedArguments() {
     supportedArguments.push_back("v");
 
     supportedArguments.push_back("in");
+
+    supportedArguments.push_back("md");
 
     return supportedArguments;
 }

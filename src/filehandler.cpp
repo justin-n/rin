@@ -24,17 +24,17 @@ void enumerateAndSearchFiles(std::string directory, RuntimeState *runtimeState, 
 
     if (hFile != INVALID_HANDLE_VALUE) {
 
-        std::vector<std::string> subDirectories;
+        std::vector<std::string> subdirectories;
 
         do {
 
             std::string fileName = wfd.cFileName;
 
             if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-                
+
                 if (!ignoreDirectory(fileName, runtimeState->getDirectoriesToIgnore())) {
 
-                    subDirectories.push_back(fileName);
+                    subdirectories.push_back(fileName);
                 }
             }
             else {
@@ -65,15 +65,33 @@ void enumerateAndSearchFiles(std::string directory, RuntimeState *runtimeState, 
 
         FindClose(hFile);
 
-        if (!subDirectories.empty()) {
+        if (!subdirectories.empty()) {
 
             depthLevel++;
-            
-            for (int i = 0; i < subDirectories.size(); i++) {
 
-                enumerateAndSearchFiles( (directory +"\\"+ subDirectories[i]), runtimeState, depthLevel);
+            if (runtimeState->getOptions() & opts::max_depth) {
+
+                if (depthLevel <= runtimeState->getMaxDepth()) {
+
+                    searchFilesInSubdirectories(subdirectories, directory, depthLevel, runtimeState);
+                }
+            }
+            else {
+
+                searchFilesInSubdirectories(subdirectories, directory, depthLevel, runtimeState);
             }
         }
+    }
+}
+
+void searchFilesInSubdirectories(std::vector<std::string> subdirectories,
+                                 std::string directory,
+                                 int depthLevel,
+                                 RuntimeState *runtimeState) {
+
+    for (int i = 0; i < subdirectories.size(); i++) {
+
+        enumerateAndSearchFiles( (directory +"\\"+ subdirectories[i]), runtimeState, depthLevel);
     }
 }
 

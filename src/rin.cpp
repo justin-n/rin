@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <io.h>
+#include <regex>
+#include <stdexcept>
 
 #include "argumenthandler.h"
 #include "runtimestate.h"
@@ -34,6 +36,7 @@ int main(int argc, char** argv) {
     RuntimeState *runtimeState = new RuntimeState(argumentHandler->getSearchString(),
                                                   argumentHandler->getFileNameToSearch(),
                                                   argumentHandler->getFileNameRegexString(),
+                                                  argumentHandler->getMaxDepthString(),
                                                   argumentHandler->getOptions(),
                                                   argumentHandler->getDirectoriesToIgnore(),
                                                   argumentHandler->getExtensionsToIgnore());
@@ -47,7 +50,21 @@ int main(int argc, char** argv) {
 
         std::cout << "Regex error: " << e.what() << std::endl;
 
-        std::cout << std::endl;
+        delete runtimeState;
+
+        return 1;
+    }
+    catch (const std::invalid_argument &e) {
+
+        std::cout << "Invalid argument: " << e.what() << std::endl;
+
+        delete runtimeState;
+
+        return 1;
+    }
+    catch (const std::out_of_range &e) {
+
+        std::cout << "Out of range exception: " << e.what() << std::endl;
 
         delete runtimeState;
 
@@ -88,7 +105,7 @@ void printUsage() {
     std::cout << "If a file name to search is not provided, files will be searched" << std::endl;
     std::cout << "recursively from the current working directory." << std::endl;
     std::cout << std::endl;
-    std::cout << "    rin [-ed=[dirs]] [-in=[PATTERN]] [-rgx] searchString [FILE]" << std::endl;
+    std::cout << "    rin [-ed=[dirs]] [-in=[PATTERN]] [-md=[depth]] [-rgx] searchString [FILE]" << std::endl;
     std::cout << std::endl;
     std::cout << "      -ed=[dirs]" << std::endl;
     std::cout << "          Ignore a comma-separated list of directory names. If" << std::endl;
@@ -98,6 +115,13 @@ void printUsage() {
     std::cout << "      -in=[PATTERN]" << std::endl;
     std::cout << "          Only search files which have a file name matching the" << std::endl;
     std::cout << "          PATTERN." << std::endl;
+    std::cout << std::endl;
+    std::cout << "      -md=[depth]" << std::endl;
+    std::cout << "          Search directories recursively with a maximum depth of" << std::endl;
+    std::cout << "          the depth provided. Depth is an integer value parsed by" << std::endl;
+    std::cout << "          std::stoi. The current directory has a depth of 0. If a" << std::endl;
+    std::cout << "          negative value is provided, only the current directory" << std::endl;
+    std::cout << "          will be searched." << std::endl;
     std::cout << std::endl;
     std::cout << "      -rgx" << std::endl;
     std::cout << "          searchString will be treated as a regex string. If this" << std::endl;

@@ -12,6 +12,7 @@ namespace opts {
     const int regex_search       = 0x10;
     const int verbose            = 0x20;
     const int file_name_match    = 0x40;
+    const int max_depth          = 0x80;
 }
 
 #endif
