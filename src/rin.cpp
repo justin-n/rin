@@ -88,7 +88,7 @@ void printUsage() {
     std::cout << "If a file name to search is not provided, files will be searched" << std::endl;
     std::cout << "recursively from the current working directory." << std::endl;
     std::cout << std::endl;
-    std::cout << "    rin [-ed=[dirs]] -in=[PATTERN] [-rgx] searchString [FILE]" << std::endl;
+    std::cout << "    rin [-ed=[dirs]] [-in=[PATTERN]] [-rgx] searchString [FILE]" << std::endl;
     std::cout << std::endl;
     std::cout << "      -ed=[dirs]" << std::endl;
     std::cout << "          Ignore a comma-separated list of directory names. If" << std::endl;
