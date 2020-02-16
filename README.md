@@ -49,8 +49,8 @@ Supports searching stdout by using the pipe operator:
 
 #### Other Information
 
-It can be compiled in the same directory as all the files with this command:
+rin can be compiled in the project root directory with this command:
 
     g++ -static -o rin src\*.cpp -lshlwapi
 
-Currently using g++ version 8.1.0 compiled on Windows 10
+Currently compiling on Windows 10 with g++ version 8.1.0.

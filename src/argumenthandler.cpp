@@ -34,7 +34,7 @@ void ArgumentHandler::init() {
 
     this->resolveFileNameMatchSwitchAndFileNameRegexString();
 
-    this->resolveMaxDepthSwitchAndMaxDepth();
+    this->resolveMaxDepthSwitchAndMaxDepthString();
 }
 
 void ArgumentHandler::loadArgumentsIntoArgumentsVector() {
@@ -159,7 +159,7 @@ void ArgumentHandler::resolveFileNameMatchSwitchAndFileNameRegexString() {
     }
 }
 
-void ArgumentHandler::resolveMaxDepthSwitchAndMaxDepth() {
+void ArgumentHandler::resolveMaxDepthSwitchAndMaxDepthString() {
 
     for (int i = 1; i < this->commandSubjectLength; i++) {
 
@@ -251,7 +251,6 @@ bool ArgumentHandler::isSupportedArgument(std::string argName) {
     return (std::find(this->supportedArguments.begin(),
                       this->supportedArguments.end(),
                       argName) != this->supportedArguments.end());
-
 }
 
 std::string ArgumentHandler::getArgumentName(std::string arg) {

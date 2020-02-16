@@ -157,7 +157,6 @@ void printNumberedMatchesInLine(
         std::cerr << "[WARNING]: matchedPositions vector is 0 or less in printNumberedMatchesInLine call." << std::endl;
 
         return;
-
     }
 
     std::cout << twoSpaceIndent << lineNumber << colonSpace;
@@ -172,7 +171,6 @@ void printMatchesInLine(size_t searchStringLen, std::vector<size_t> matchedPosit
         std::cerr << "[WARNING]: matchedPositions vector is 0 or less in printMatchesInLine call." << std::endl;
 
         return;
-
     }
 
     size_t printPos = 0;
@@ -221,7 +219,7 @@ std::vector<size_t> getMatchedPositions(std::string line, RuntimeState *runtimeS
         std::transform(line.begin(), line.end(), line.begin(), ::tolower);
 
         std::transform(searchString.begin(), searchString.end(), searchString.begin(), ::tolower);
-    } 
+    }
 
     while ((substrPos = line.find(searchString, nextSearchStartIndex)) != std::string::npos) {
 
@@ -231,7 +229,6 @@ std::vector<size_t> getMatchedPositions(std::string line, RuntimeState *runtimeS
     }
 
     return matchedPositions;
-
 }
 
 void printFileNameAndOrLineContainingMatch(

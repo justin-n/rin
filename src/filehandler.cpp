@@ -127,14 +127,7 @@ bool ignoreDirectory(std::string fileName, std::vector<std::string> directoriesT
 
 bool includeFileByFileNameMatch(std::string fileName, std::regex fileNameRegex) {
 
-    if (std::regex_match(fileName, fileNameRegex)) {
-
-        return true;
-    }
-    else {
-
-        return false;
-    }
+    return (std::regex_match(fileName, fileNameRegex));
 }
 
 void printFileNameIfVerbose(RuntimeState *runtimeState, std::string directory, std::string fileName) {

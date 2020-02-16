@@ -44,7 +44,7 @@ class ArgumentHandler {
 
         void resolveFileNameMatchSwitchAndFileNameRegexString();
 
-        void resolveMaxDepthSwitchAndMaxDepth();
+        void resolveMaxDepthSwitchAndMaxDepthString();
 
         bool isValidArgumentSyntax(std::string arg);
 
