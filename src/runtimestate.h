@@ -17,7 +17,11 @@ class RuntimeState {
 
         std::regex searchRegex;
 
-        std::string filenameToSearch;
+        std::string fileNameToSearch;
+
+        std::string fileNameRegexString;
+
+        std::regex fileNameRegex;
 
         opts::option_fields options;
 
@@ -30,6 +34,7 @@ class RuntimeState {
         RuntimeState(
             std::string searchString,
             std::string fileToSearch,
+            std::string fileNameRegexString,
             opts::option_fields options,
             std::vector<std::string> directoriesToIgnore,
             std::vector<std::string> extensionsToIgnore
@@ -45,7 +50,11 @@ class RuntimeState {
 
         std::regex getSearchRegex();
 
-        std::string getFilenameToSearch();
+        std::string getFileNameToSearch();
+
+        std::string getFileNameRegexString();
+
+        std::regex getFileNameRegex();
 
         opts::option_fields getOptions();
 

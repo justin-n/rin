@@ -32,7 +32,8 @@ int main(int argc, char** argv) {
     }
 
     RuntimeState *runtimeState = new RuntimeState(argumentHandler->getSearchString(),
-                                                  argumentHandler->getFilenameToSearch(),
+                                                  argumentHandler->getFileNameToSearch(),
+                                                  argumentHandler->getFileNameRegexString(),
                                                   argumentHandler->getOptions(),
                                                   argumentHandler->getDirectoriesToIgnore(),
                                                   argumentHandler->getExtensionsToIgnore());
@@ -57,7 +58,7 @@ int main(int argc, char** argv) {
 
         if (runtimeState->getOptions() & opts::search_single_file) {
 
-            printMatchesInFile(runtimeState->getFilenameToSearch(), runtimeState);
+            printMatchesInFile(runtimeState->getFileNameToSearch(), runtimeState);
         }
         else {
 
@@ -84,15 +85,19 @@ int main(int argc, char** argv) {
 void printUsage() {
     std::cout << "Finds strings or patterns in the lines of files." << std::endl;
     std::cout << std::endl;
-    std::cout << "If a filename to search is not provided, files will be searched" << std::endl;
+    std::cout << "If a file name to search is not provided, files will be searched" << std::endl;
     std::cout << "recursively from the current working directory." << std::endl;
     std::cout << std::endl;
-    std::cout << "    rin [-ed=[dirs]] [-rgx] searchString [FILE]" << std::endl;
+    std::cout << "    rin [-ed=[dirs]] -in=[PATTERN] [-rgx] searchString [FILE]" << std::endl;
     std::cout << std::endl;
     std::cout << "      -ed=[dirs]" << std::endl;
     std::cout << "          Ignore a comma-separated list of directory names. If" << std::endl;
     std::cout << "          this argument is repeated, the values of each argument" << std::endl;
     std::cout << "          will be combined." << std::endl;
+    std::cout << std::endl;
+    std::cout << "      -in=[PATTERN]" << std::endl;
+    std::cout << "          Only search files which have a file name matching the" << std::endl;
+    std::cout << "          PATTERN." << std::endl;
     std::cout << std::endl;
     std::cout << "      -rgx" << std::endl;
     std::cout << "          searchString will be treated as a regex string. If this" << std::endl;

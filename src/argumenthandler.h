@@ -10,7 +10,7 @@ class ArgumentHandler {
 
     private:
 
-        static const int MAX_ARGUMENTS = 7;
+        static const int MAX_ARGUMENTS = 8;
 
         int argc;
 
@@ -42,6 +42,8 @@ class ArgumentHandler {
 
         void resolveVerboseSwitch();
 
+        void resolveFileNameMatchSwitchAndFileNameRegexString();
+
         bool isValidArgumentSyntax(std::string arg);
 
         std::vector<std::string> getSupportedArguments();
@@ -68,7 +70,9 @@ class ArgumentHandler {
 
         std::string getSearchString();
 
-        std::string getFilenameToSearch();
+        std::string getFileNameToSearch();
+
+        std::string getFileNameRegexString();
 
         opts::option_fields getOptions();
 

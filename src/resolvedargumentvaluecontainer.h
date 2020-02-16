@@ -12,7 +12,9 @@ class ResolvedArgumentValueContainer {
 
         std::string searchString;
 
-        std::string filenameToSearch;
+        std::string fileNameToSearch;
+
+        std::string fileNameRegexString;
 
         opts::option_fields options;
 
@@ -34,9 +36,13 @@ class ResolvedArgumentValueContainer {
 
         void setSearchString(std::string searchString);
 
-        std::string getFilenameToSearch();
+        std::string getFileNameToSearch();
 
-        void setFilenameToSearch(std::string filenameToSearch);
+        void setFileNameToSearch(std::string fileNameToSearch);
+
+        std::string getFileNameRegexString();
+
+        void setFileNameRegexString(std::string fileNameRegexString);
 
         opts::option_fields getOptions();
 
@@ -45,6 +51,8 @@ class ResolvedArgumentValueContainer {
         void setRegexSearchOption(bool value);
 
         void setVerboseOption(bool value);
+
+        void setFileNameMatchOption(bool value);
 
         std::vector<std::string> getDirectoriesToIgnore();
 

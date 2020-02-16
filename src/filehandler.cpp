@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <cstdio>
+#include <regex>
 #include <windows.h>
 #include <shlwapi.h>
 
@@ -42,13 +43,21 @@ void enumerateAndSearchFiles(std::string directory, RuntimeState *runtimeState, 
 
                 if (!ignoreFileByExtension(fileExtension, runtimeState->getExtensionsToIgnore())) {
 
-                    if (runtimeState->getOptions() & opts::verbose) {
+                    if (runtimeState->getOptions() & opts::file_name_match) {
 
-                        std::cout << (directory + "\\" + fileName) << std::endl;
+                        if (includeFileByFileNameMatch(fileName, runtimeState->getFileNameRegex())) {
+
+                            printFileNameIfVerbose(runtimeState, directory, fileName);
+
+                            printMatchesInFile( (directory + "\\" + fileName) , runtimeState);
+                        }
                     }
+                    else {
 
-                    printMatchesInFile( (directory + "\\" + fileName) , runtimeState);
+                        printFileNameIfVerbose(runtimeState, directory, fileName);
 
+                        printMatchesInFile( (directory + "\\" + fileName) , runtimeState);
+                    }
                 }
             }
 
@@ -75,9 +84,7 @@ bool ignoreFileByExtension(std::string extension, std::vector<std::string> exten
         if (extension.compare(extensionsToIgnore[i]) == 0) {
 
             return true;
-
         }
-
     }
 
     return false;
@@ -98,4 +105,24 @@ bool ignoreDirectory(std::string fileName, std::vector<std::string> directoriesT
     }
 
     return false;
+}
+
+bool includeFileByFileNameMatch(std::string fileName, std::regex fileNameRegex) {
+
+    if (std::regex_match(fileName, fileNameRegex)) {
+
+        return true;
+    }
+    else {
+
+        return false;
+    }
+}
+
+void printFileNameIfVerbose(RuntimeState *runtimeState, std::string directory, std::string fileName) {
+
+    if (runtimeState->getOptions() & opts::verbose) {
+
+        std::cout << (directory + "\\" + fileName) << std::endl;
+    }
 }

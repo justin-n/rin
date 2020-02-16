@@ -24,14 +24,24 @@ void ResolvedArgumentValueContainer::setSearchString(std::string searchString) {
     this->searchString = searchString;
 }
 
-std::string ResolvedArgumentValueContainer::getFilenameToSearch() {
+std::string ResolvedArgumentValueContainer::getFileNameToSearch() {
 
-    return this->filenameToSearch;
+    return this->fileNameToSearch;
 }
 
-void ResolvedArgumentValueContainer::setFilenameToSearch(std::string filenameToSearch) {
+void ResolvedArgumentValueContainer::setFileNameToSearch(std::string fileNameToSearch) {
 
-    this->filenameToSearch = filenameToSearch;
+    this->fileNameToSearch = fileNameToSearch;
+}
+
+std::string ResolvedArgumentValueContainer::getFileNameRegexString() {
+
+    return this->fileNameRegexString;
+}
+
+void ResolvedArgumentValueContainer::setFileNameRegexString(std::string fileNameRegexString) {
+
+    this->fileNameRegexString = fileNameRegexString;
 }
 
 void ResolvedArgumentValueContainer::setSearchSingleFileOption(bool value) {
@@ -67,6 +77,18 @@ void ResolvedArgumentValueContainer::setVerboseOption(bool value) {
     else {
 
         this->options &= (~(opts::verbose));
+    }
+}
+
+void ResolvedArgumentValueContainer::setFileNameMatchOption(bool value) {
+
+    if (value == true) {
+
+        this->options |= opts::file_name_match;
+    }
+    else {
+
+        this-> options &= (~(opts::file_name_match));
     }
 }
 

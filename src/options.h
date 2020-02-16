@@ -11,7 +11,7 @@ namespace opts {
     const int search_single_file = 0x08;
     const int regex_search       = 0x10;
     const int verbose            = 0x20;
-
+    const int file_name_match    = 0x40;
 }
 
 #endif

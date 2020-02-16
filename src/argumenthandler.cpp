@@ -31,6 +31,8 @@ void ArgumentHandler::init() {
     this->resolveRegexSwitch();
 
     this->resolveVerboseSwitch();
+
+    this->resolveFileNameMatchSwitchAndFileNameRegexString();
 }
 
 void ArgumentHandler::loadArgumentsIntoArgumentsVector() {
@@ -78,7 +80,7 @@ void ArgumentHandler::resolveSyntax() {
 
         this->resolvedArgumentValueContainer->setSearchString(this->arguments.at(this->argc - 2));
 
-        this->resolvedArgumentValueContainer->setFilenameToSearch(this->arguments.at(this->argc - 1));
+        this->resolvedArgumentValueContainer->setFileNameToSearch(this->arguments.at(this->argc - 1));
 
         this->resolvedArgumentValueContainer->setSearchSingleFileOption(true);
     }
@@ -141,6 +143,20 @@ void ArgumentHandler::resolveVerboseSwitch() {
     }
 }
 
+void ArgumentHandler::resolveFileNameMatchSwitchAndFileNameRegexString() {
+
+    for (int i = 1; i < this->commandSubjectLength; i++) {
+
+        if (this->getArgumentName(this->arguments.at(i)).compare("in") == 0) {
+
+            this->resolvedArgumentValueContainer->setFileNameMatchOption(true);
+
+            this->resolvedArgumentValueContainer
+                    ->setFileNameRegexString(this->getArgumentValueOf(this->arguments.at(i)));
+        }
+    }
+}
+
 bool ArgumentHandler::isValidArgumentSyntax(std::string arg) {
 
     if ((arg.substr(0, 1).compare("-") == 0) || (arg.substr(0, 2).compare("--") == 0)) {
@@ -156,9 +172,14 @@ std::string ArgumentHandler::getSearchString() {
     return this->resolvedArgumentValueContainer->getSearchString();
 }
 
-std::string ArgumentHandler::getFilenameToSearch() {
+std::string ArgumentHandler::getFileNameToSearch() {
 
-    return this->resolvedArgumentValueContainer->getFilenameToSearch();
+    return this->resolvedArgumentValueContainer->getFileNameToSearch();
+}
+
+std::string ArgumentHandler::getFileNameRegexString() {
+
+    return this->resolvedArgumentValueContainer->getFileNameRegexString();
 }
 
 opts::option_fields ArgumentHandler::getOptions() {
@@ -185,6 +206,8 @@ std::vector<std::string> ArgumentHandler::getSupportedArguments() {
     supportedArguments.push_back("rgx");
 
     supportedArguments.push_back("v");
+
+    supportedArguments.push_back("in");
 
     return supportedArguments;
 }

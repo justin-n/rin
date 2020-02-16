@@ -13,4 +13,8 @@ bool ignoreFileByExtension(std::string extension, std::vector<std::string> exten
 
 bool ignoreDirectory(std::string fileName, std::vector<std::string> directoriesToIgnore);
 
+bool includeFileByFileNameMatch(std::string fileName, std::regex fileNameRegex);
+
+void printFileNameIfVerbose(RuntimeState *runtimeState, std::string directory, std::string fileName);
+
 #endif
