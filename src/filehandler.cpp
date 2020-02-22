@@ -32,33 +32,11 @@ void enumerateAndSearchFiles(std::string directory, RuntimeState *runtimeState, 
 
             if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
 
-                if (!ignoreDirectory(fileName, runtimeState->getDirectoriesToIgnore())) {
-
-                    subdirectories.push_back(fileName);
-                }
+                handleDirectory(fileName, subdirectories, runtimeState);
             }
             else {
 
-                std::string fileExtension = PathFindExtension(fileName.c_str());
-
-                if (!ignoreFileByExtension(fileExtension, runtimeState->getExtensionsToIgnore())) {
-
-                    if (runtimeState->getOptions() & opts::file_name_match) {
-
-                        if (includeFileByFileNameMatch(fileName, runtimeState->getFileNameRegex())) {
-
-                            printFileNameIfVerbose(runtimeState, directory, fileName);
-
-                            printMatchesInFile( (directory + "\\" + fileName) , runtimeState);
-                        }
-                    }
-                    else {
-
-                        printFileNameIfVerbose(runtimeState, directory, fileName);
-
-                        printMatchesInFile( (directory + "\\" + fileName) , runtimeState);
-                    }
-                }
+                handleFile(fileName, directory, runtimeState);
             }
 
         } while (FindNextFile(hFile, &wfd));
@@ -67,20 +45,56 @@ void enumerateAndSearchFiles(std::string directory, RuntimeState *runtimeState, 
 
         if (!subdirectories.empty()) {
 
-            depthLevel++;
+            handleSubdirectories(directory, subdirectories, depthLevel, runtimeState);
+        }
+    }
+}
 
-            if (runtimeState->getOptions() & opts::max_depth) {
+void handleDirectory(std::string fileName, std::vector<std::string> &subdirectories, RuntimeState *runtimeState) {
 
-                if (depthLevel <= runtimeState->getMaxDepth()) {
+    if (!ignoreDirectory(fileName, runtimeState->getDirectoriesToIgnore())) {
 
-                    searchFilesInSubdirectories(subdirectories, directory, depthLevel, runtimeState);
-                }
-            }
-            else {
+        subdirectories.push_back(fileName);
+    }
+}
 
-                searchFilesInSubdirectories(subdirectories, directory, depthLevel, runtimeState);
+void handleFile(std::string fileName, std::string directory, RuntimeState *runtimeState) {
+
+    std::string fileExtension = PathFindExtension(fileName.c_str());
+
+    if (!ignoreFileByExtension(fileExtension, runtimeState->getExtensionsToIgnore())) {
+
+        if (runtimeState->getOptions() & opts::file_name_match) {
+
+            if (includeFileByFileNameMatch(fileName, runtimeState->getFileNameRegex())) {
+
+                printMatchesInFileAndFileNameIfVerbose(fileName, directory, runtimeState);
             }
         }
+        else {
+
+            printMatchesInFileAndFileNameIfVerbose(fileName, directory, runtimeState);
+        }
+    }
+}
+
+void handleSubdirectories(std::string directory,
+                          std::vector<std::string> subdirectories,
+                          int depthLevel,
+                          RuntimeState *runtimeState) {
+
+    depthLevel++;
+
+    if (runtimeState->getOptions() & opts::max_depth) {
+
+        if (depthLevel <= runtimeState->getMaxDepth()) {
+
+            searchFilesInSubdirectories(subdirectories, directory, depthLevel, runtimeState);
+        }
+    }
+    else {
+
+        searchFilesInSubdirectories(subdirectories, directory, depthLevel, runtimeState);
     }
 }
 
@@ -123,6 +137,13 @@ bool ignoreDirectory(std::string fileName, std::vector<std::string> directoriesT
     }
 
     return false;
+}
+
+void printMatchesInFileAndFileNameIfVerbose(std::string fileName, std::string directory, RuntimeState *runtimeState) {
+
+    printFileNameIfVerbose(runtimeState, directory, fileName);
+
+    printMatchesInFile( (directory + "\\" + fileName) , runtimeState);
 }
 
 bool includeFileByFileNameMatch(std::string fileName, std::regex fileNameRegex) {
