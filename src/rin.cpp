@@ -10,6 +10,7 @@
 #include "filehandler.h"
 #include "pipeoperations.h"
 #include "options.h"
+#include "version.h"
 
 void printUsage();
 
@@ -100,6 +101,8 @@ int main(int argc, char** argv) {
 }
 
 void printUsage() {
+    std::cout << "rin " << RIN_VERSION << std::endl;
+    std::cout << std::endl;
     std::cout << "Finds strings or patterns in the lines of files." << std::endl;
     std::cout << std::endl;
     std::cout << "If a file name to search is not provided, files will be searched" << std::endl;
