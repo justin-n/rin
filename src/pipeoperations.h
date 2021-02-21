@@ -7,4 +7,6 @@ void printStringMatchesInStdout(RuntimeState *runtimeState);
 
 void printRegexMatchesInStdout(RuntimeState *runtimeState);
 
+void printNonStringMatchesInStdout(RuntimeState *runtimeState);
+
 #endif

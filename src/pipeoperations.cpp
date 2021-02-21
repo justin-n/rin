@@ -36,3 +36,20 @@ void printRegexMatchesInStdout(RuntimeState *runtimeState) {
         findAndPrintRegexMatchesInLine(inputLine, runtimeState);
     }
 }
+
+void printNonStringMatchesInStdout(RuntimeState *runtimeState) {
+
+    std::string inputLine;
+
+    size_t searchStringLen = runtimeState->getSearchStringLen();
+
+    while (getline(std::cin, inputLine)) {
+
+        std::vector<size_t> matchedPositions = getMatchedPositions(inputLine, runtimeState);
+
+        if (matchedPositions.size() == 0) {
+
+            std::cout << inputLine << std::endl;
+        }
+    }
+}

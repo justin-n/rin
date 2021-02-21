@@ -90,6 +90,18 @@ void ResolvedArgumentValueContainer::setVerboseOption(bool value) {
     }
 }
 
+void ResolvedArgumentValueContainer::setNegativeSearchOption(bool value) {
+
+    if (value == true) {
+
+        this->options |= opts::negative_search;
+    }
+    else {
+
+        this->options &= (~(opts::negative_search));
+    }
+}
+
 void ResolvedArgumentValueContainer::setFileNameMatchOption(bool value) {
 
     if (value == true) {

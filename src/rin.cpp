@@ -89,6 +89,10 @@ int main(int argc, char** argv) {
 
             printRegexMatchesInStdout(runtimeState);
         }
+        else if (runtimeState->getOptions() & opts::negative_search) {
+
+            printNonStringMatchesInStdout(runtimeState);
+        }
         else {
 
             printStringMatchesInStdout(runtimeState);
@@ -132,6 +136,11 @@ void printUsage() {
     std::cout << "          a literal string." << std::endl;
     std::cout << std::endl;
     std::cout << "      -v" << std::endl;
+    std::cout << "          Prints lines that do not match searchString. This" << std::endl;
+    std::cout << "          argument is currently only supported as a pipe operation," << std::endl;
+    std::cout << "          and is not supported with the regex option." << std::endl;
+    std::cout << std::endl;
+    std::cout << "      -verbose" << std::endl;
     std::cout << "          Verbose output will be used. Currently, each file being" << std::endl;
     std::cout << "          searched will be printed. This can be useful for finding" << std::endl;
     std::cout << "          directories that could be ignored to reduce the time of" << std::endl;

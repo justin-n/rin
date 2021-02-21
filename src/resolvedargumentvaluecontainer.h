@@ -58,6 +58,8 @@ class ResolvedArgumentValueContainer {
 
         void setVerboseOption(bool value);
 
+        void setNegativeSearchOption(bool value);
+
         void setFileNameMatchOption(bool value);
 
         void setMaxDepthOption(bool value);

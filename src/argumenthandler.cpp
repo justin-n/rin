@@ -5,6 +5,7 @@
 #include <string>
 #include <algorithm>
 #include <stdexcept>
+#include <io.h>
 
 #include "resolvedargumentvaluecontainer.h"
 
@@ -32,9 +33,13 @@ void ArgumentHandler::init() {
 
     this->resolveVerboseSwitch();
 
+    this->resolveNegativeSearchSwitch();
+
     this->resolveFileNameMatchSwitchAndFileNameRegexString();
 
     this->resolveMaxDepthSwitchAndMaxDepthString();
+
+    this->checkOptionState();
 }
 
 void ArgumentHandler::loadArgumentsIntoArgumentsVector() {
@@ -138,9 +143,20 @@ void ArgumentHandler::resolveVerboseSwitch() {
 
     for (int i = 1; i < this->commandSubjectLength; i++) {
 
-        if (this->getArgumentName(this->arguments.at(i)).compare("v") == 0) {
+        if (this->getArgumentName(this->arguments.at(i)).compare("verbose") == 0) {
 
             this->resolvedArgumentValueContainer->setVerboseOption(true);
+        }
+    }
+}
+
+void ArgumentHandler::resolveNegativeSearchSwitch() {
+
+    for (int i = 1; i < this->commandSubjectLength; i++) {
+
+        if (this->getArgumentName(this->arguments.at(i)).compare("v") == 0) {
+
+            this->resolvedArgumentValueContainer->setNegativeSearchOption(true);
         }
     }
 }
@@ -228,6 +244,8 @@ std::vector<std::string> ArgumentHandler::getSupportedArguments() {
 
     supportedArguments.push_back("v");
 
+    supportedArguments.push_back("verbose");
+
     supportedArguments.push_back("in");
 
     supportedArguments.push_back("md");
@@ -242,6 +260,22 @@ void ArgumentHandler::checkForArgumentSupport() {
         if (!(this->isSupportedArgument(this->getArgumentName(this->arguments.at(i))))) {
 
             throw std::runtime_error("Argument not supported: " + arguments.at(i));
+        }
+    }
+}
+
+void ArgumentHandler::checkOptionState() {
+
+    if (this->resolvedArgumentValueContainer->getOptions() & opts::negative_search) {
+
+        if (_isatty(_fileno(stdin))) {
+
+            throw std::runtime_error("Negative search option only supported in pipe operation.");
+        }
+
+        if (this->resolvedArgumentValueContainer->getOptions() & opts::regex_search) {
+
+            throw std::runtime_error("Negative search not supported with regex option.");
         }
     }
 }

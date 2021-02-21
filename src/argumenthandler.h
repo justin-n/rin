@@ -42,6 +42,8 @@ class ArgumentHandler {
 
         void resolveVerboseSwitch();
 
+        void resolveNegativeSearchSwitch();
+
         void resolveFileNameMatchSwitchAndFileNameRegexString();
 
         void resolveMaxDepthSwitchAndMaxDepthString();
@@ -51,6 +53,8 @@ class ArgumentHandler {
         std::vector<std::string> getSupportedArguments();
 
         void checkForArgumentSupport();
+
+        void checkOptionState();
 
         bool isSupportedArgument(std::string argName);
 

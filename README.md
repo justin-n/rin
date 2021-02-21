@@ -14,7 +14,7 @@ Named after the grep options that this program emulates by default:
 
 If a filename to search is not provided, files will be searched recursively from the working directory.
 
-    rin [-ed=[dirs]] [-in=[PATTERN]] [-md=[depth]] [-rgx] [-v] searchString [FILENAME]
+    rin [-ed=[dirs]] [-in=[PATTERN]] [-md=[depth]] [-rgx] [-verbose] searchString [FILENAME]
 
         -ed=[dirs]
             Ignore a comma-separated list of directory names. If this
@@ -38,6 +38,11 @@ If a filename to search is not provided, files will be searched recursively from
             a literal string.
 
         -v
+            Prints lines that do not match searchString. This
+            argument is currently only supported as a pipe operation,
+            and is not supported with the regex option.
+
+        -verbose
             Verbose output will be used. Currently, each file being
             searched will be printed. This can be useful for finding
             directories that could be ignored to reduce the time of
@@ -45,7 +50,7 @@ If a filename to search is not provided, files will be searched recursively from
 
 Supports searching stdout by using the pipe operator:
 
-    <command> | rin [-rgx] [searchString]
+    <command> | rin [-v] [-rgx] [searchString]
 
 #### Other Information
 
