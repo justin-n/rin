@@ -148,6 +148,6 @@ void printUsage() {
     std::cout << std::endl;
     std::cout << "stdout can be searched by using rin through a pipe:" << std::endl;
     std::cout << std::endl;
-    std::cout << "    <command> | rin [-rgx] [searchString]" << std::endl;
+    std::cout << "    <command> | rin [-v] [-rgx] [searchString]" << std::endl;
     std::cout << std::endl;
 }
