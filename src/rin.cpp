@@ -105,7 +105,7 @@ int main(int argc, char** argv) {
 }
 
 void printUsage() {
-    std::cout << "rin " << RIN_VERSION << std::endl;
+    std::cout << "rin " << VERSION_MAJOR << "." << VERSION_MINOR << "." << VERSION_INCREMENTAL << std::endl;
     std::cout << std::endl;
     std::cout << "Finds strings or patterns in the lines of files." << std::endl;
     std::cout << std::endl;
