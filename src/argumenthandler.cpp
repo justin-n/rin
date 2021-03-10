@@ -54,11 +54,9 @@ void ArgumentHandler::checkAndResolveSyntax() {
 
     this->checkForMinimumNumberOfArguments();
 
-    this->checkForMaximumNumberOfArguments();
+    this->resolvePredicateSyntax();
 
-    this->resolveSyntax();
-
-    this->checkSyntax();
+    this->checkSubjectSyntax();
 
     this->checkForArgumentSupport();
 }
@@ -71,35 +69,43 @@ void ArgumentHandler::checkForMinimumNumberOfArguments() {
     }
 }
 
-void ArgumentHandler::checkForMaximumNumberOfArguments() {
-
-    if (this->argc > this->MAX_ARGUMENTS) {
-
-        throw std::runtime_error("Too many arguments");
-    }
-}
-
-void ArgumentHandler::resolveSyntax() {
+void ArgumentHandler::resolvePredicateSyntax() {
 
     if ((this->argc > 2) && (!(this->isValidArgumentSyntax(this->arguments.at(this->argc - 2))))) {
 
-        this->commandSubjectLength = (this->argc - 2);
-
-        this->resolvedArgumentValueContainer->setSearchString(this->arguments.at(this->argc - 2));
-
-        this->resolvedArgumentValueContainer->setFileNameToSearch(this->arguments.at(this->argc - 1));
-
-        this->resolvedArgumentValueContainer->setSearchSingleFileOption(true);
+        this->resolveSingleFilePredicateSyntax();
     }
     else {
 
-        this->commandSubjectLength = (this->argc - 1);
-
-        this->resolvedArgumentValueContainer->setSearchString(this->arguments.at(this->argc - 1));
+        this->resolveMultiFilePredicateSyntax();
     }
 }
 
-void ArgumentHandler::checkSyntax() {
+void ArgumentHandler::resolveSingleFilePredicateSyntax() {
+
+    this->commandSubjectLength = (this->argc - 2);
+
+    std::string secondToLastArgument = (this->arguments.at(this->argc - 2));
+
+    std::string lastArgument = (this->arguments.at(this->argc - 1));
+
+    this->resolvedArgumentValueContainer->setSearchString(secondToLastArgument);
+
+    this->resolvedArgumentValueContainer->setFileNameToSearch(lastArgument);
+
+    this->resolvedArgumentValueContainer->setSearchSingleFileOption(true);
+}
+
+void ArgumentHandler::resolveMultiFilePredicateSyntax() {
+
+    this->commandSubjectLength = (this->argc - 1);
+
+    std::string lastArgument = (this->arguments.at(this->argc - 1));
+
+    this->resolvedArgumentValueContainer->setSearchString(lastArgument);
+}
+
+void ArgumentHandler::checkSubjectSyntax() {
 
     for (int i = 1; i < this->commandSubjectLength; i++) {
 

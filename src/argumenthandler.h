@@ -10,8 +10,6 @@ class ArgumentHandler {
 
     private:
 
-        static const int MAX_ARGUMENTS = 9;
-
         int argc;
 
         char** argv;
@@ -30,11 +28,13 @@ class ArgumentHandler {
 
         void checkForMinimumNumberOfArguments();
 
-        void checkForMaximumNumberOfArguments();
+        void resolvePredicateSyntax();
 
-        void resolveSyntax();
+        void resolveSingleFilePredicateSyntax();
 
-        void checkSyntax();
+        void resolveMultiFilePredicateSyntax();
+
+        void checkSubjectSyntax();
 
         void resolveExcludeDirectoryNamesArguments();
 
