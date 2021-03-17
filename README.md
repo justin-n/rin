@@ -14,12 +14,19 @@ Named after the grep options that this program emulates by default:
 
 If a filename to search is not provided, files will be searched recursively from the working directory.
 
-    rin [-ed=[dirs]] [-in=[PATTERN]] [-md=[depth]] [-rgx] [-verbose] searchString [FILENAME]
+    rin [-ed=[dirs]] [-ee=[exts]] [-in=[PATTERN]] [-md=[depth]] [-rgx] [-verbose] searchString [FILENAME]
 
         -ed=[dirs]
             Ignore a comma-separated list of directory names. If this
             argument is repeated, the values of each argument will be
             combined.
+
+        -ee=[exts]
+            Ignore a comma-separated list of extensions. If this
+            argument is repeated, the values of each argument will be
+            combined. A period is not necessary, for example:
+
+                -ee=exe,dll
 
         -in=[PATTERN]
             Only search files which have a file name matching the

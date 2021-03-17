@@ -8,8 +8,6 @@
 ResolvedArgumentValueContainer::ResolvedArgumentValueContainer() {
 
     this->options = this->getDefaultOptions();
-
-    this->extensionsToIgnore = this->getDefaultExtensionsToIgnore();
 }
 
 ResolvedArgumentValueContainer::~ResolvedArgumentValueContainer() { }
@@ -146,6 +144,11 @@ std::vector<std::string> ResolvedArgumentValueContainer::getExtensionsToIgnore()
     return this->extensionsToIgnore;
 }
 
+void ResolvedArgumentValueContainer::setExtensionsToIgnore(std::vector<std::string> extensionsToIgnore) {
+
+    this->extensionsToIgnore = extensionsToIgnore;
+}
+
 opts::option_fields ResolvedArgumentValueContainer::getDefaultOptions() {
 
     opts::option_fields options = 0x0;
@@ -155,18 +158,4 @@ opts::option_fields ResolvedArgumentValueContainer::getDefaultOptions() {
     options |= opts::print_line_numbers;
 
     return options;
-}
-
-std::vector<std::string> ResolvedArgumentValueContainer::getDefaultExtensionsToIgnore() {
-
-    std::vector<std::string> extensionsToIgnore;
-
-    extensionsToIgnore.push_back(".exe");
-    extensionsToIgnore.push_back(".dll");
-    extensionsToIgnore.push_back(".class");
-    extensionsToIgnore.push_back(".jar");
-    extensionsToIgnore.push_back(".zip");
-    extensionsToIgnore.push_back(".swc");
-
-    return extensionsToIgnore;
 }

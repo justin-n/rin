@@ -69,6 +69,8 @@ class ResolvedArgumentValueContainer {
         void setDirectoriesToIgnore(std::vector<std::string> directoriesToIgnore);
 
         std::vector<std::string> getExtensionsToIgnore();
+
+        void setExtensionsToIgnore(std::vector<std::string> extensionsToIgnore);
 };
 
 #endif

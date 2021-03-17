@@ -27,6 +27,8 @@ void ArgumentHandler::init() {
 
     this->checkAndResolveSyntax();
 
+    this->resolveExcludeExtensionsArguments();
+
     this->resolveExcludeDirectoryNamesArguments();
 
     this->resolveRegexSwitch();
@@ -112,6 +114,17 @@ void ArgumentHandler::checkSubjectSyntax() {
         if (!(this->isValidArgumentSyntax(this->arguments.at(i)))) {
 
             throw std::runtime_error("Invalid argument syntax: " + this->arguments.at(i));
+        }
+    }
+}
+
+void ArgumentHandler::resolveExcludeExtensionsArguments() {
+
+    for (int i = 1; i < this->commandSubjectLength; i++) {
+
+        if (this->getArgumentName(this->arguments.at(i)).compare("ee") == 0) {
+
+            this->loadExtensionsToIgnore(this->getArgumentValueOf(this->arguments.at(i)));
         }
     }
 }
@@ -256,6 +269,8 @@ std::vector<std::string> ArgumentHandler::getSupportedArguments() {
 
     supportedArguments.push_back("md");
 
+    supportedArguments.push_back("ee");
+
     return supportedArguments;
 }
 
@@ -350,6 +365,26 @@ void ArgumentHandler::loadDirectoriesToIgnore(std::string commaDelimitedDirector
     }
 
     this->resolvedArgumentValueContainer->setDirectoriesToIgnore(directoriesToIgnore);
+}
+
+void ArgumentHandler::loadExtensionsToIgnore(std::string commaDelimitedExtensionList) {
+
+    std::vector<std::string> extensionsToIgnore =
+                    this->resolvedArgumentValueContainer->getExtensionsToIgnore();
+
+    std::vector<std::string> additionalExtensions =
+                    this->getStringVectorFromStringWithDelimiter(commaDelimitedExtensionList, ",");
+
+    for (int i = 0; i < additionalExtensions.size(); i++) {
+
+        std::string extension = additionalExtensions.at(i);
+
+        std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
+
+        extensionsToIgnore.push_back(extension);
+    }
+
+    this->resolvedArgumentValueContainer->setExtensionsToIgnore(extensionsToIgnore);
 }
 
 std::vector<std::string> ArgumentHandler::getStringVectorFromStringWithDelimiter(std::string str, std::string delim) {

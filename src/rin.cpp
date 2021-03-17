@@ -27,6 +27,8 @@ int main(int argc, char** argv) {
 
         std::cout << std::endl;
 
+        // TODO don't print usage, explain how to print usage
+
         printUsage();
 
         delete argumentHandler;
@@ -112,12 +114,19 @@ void printUsage() {
     std::cout << "If a file name to search is not provided, files will be searched" << std::endl;
     std::cout << "recursively from the current working directory." << std::endl;
     std::cout << std::endl;
-    std::cout << "    rin [-ed=[dirs]] [-in=[PATTERN]] [-md=[depth]] [-rgx] searchString [FILE]" << std::endl;
+    std::cout << "    rin [-ed=[dirs]] [-ee=[exts]] [-in=[PATTERN]] [-md=[depth]] [-rgx] searchString [FILE]" << std::endl;
     std::cout << std::endl;
     std::cout << "      -ed=[dirs]" << std::endl;
     std::cout << "          Ignore a comma-separated list of directory names. If" << std::endl;
     std::cout << "          this argument is repeated, the values of each argument" << std::endl;
     std::cout << "          will be combined." << std::endl;
+    std::cout << std::endl;
+    std::cout << "      -ee=[exts]" << std::endl;
+    std::cout << "          Ignore a comma-separated list of extensions. If this" << std::endl;
+    std::cout << "          argument is repeated, the values of each argument will be" << std::endl;
+    std::cout << "          combined. A period is not necessary, for example:" << std::endl;
+    std::cout << std::endl;
+    std::cout << "              -ee=exe,dll" << std::endl;
     std::cout << std::endl;
     std::cout << "      -in=[PATTERN]" << std::endl;
     std::cout << "          Only search files which have a file name matching the" << std::endl;

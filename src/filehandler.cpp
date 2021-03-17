@@ -113,7 +113,9 @@ bool ignoreFileByExtension(std::string extension, std::vector<std::string> exten
 
     for (int i = 0; i < extensionsToIgnore.size(); i++) {
 
-        if (extension.compare(extensionsToIgnore[i]) == 0) {
+        // use a period beforehand because that's how PathFindExtension behaves
+        // otherwise, users have to type a period before every extension
+        if (extension.compare(("." + extensionsToIgnore[i])) == 0) {
 
             return true;
         }

@@ -36,6 +36,8 @@ class ArgumentHandler {
 
         void checkSubjectSyntax();
 
+        void resolveExcludeExtensionsArguments();
+
         void resolveExcludeDirectoryNamesArguments();
 
         void resolveRegexSwitch();
@@ -65,6 +67,8 @@ class ArgumentHandler {
         void loadDirectoriesToIgnore(std::string commaDelimitedDirectoryNameList);
 
         std::vector<std::string> getStringVectorFromStringWithDelimiter(std::string str, std::string delim);
+
+        void loadExtensionsToIgnore(std::string commaDelimitedExtensionList);
 
     public:
 
